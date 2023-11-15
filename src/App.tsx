@@ -1,17 +1,22 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import {useState } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
+
 import { PossibleBook, ChatBookRecommendationService } from './services/recommendations';
+
+import BookResultList from './components/BookResultList';
 
 const service = new ChatBookRecommendationService()
 
 function App() {
   const [description, setDescription] = useState("")
-  const [recommendation, setRecommendation] = useState<PossibleBook | null>(null)
+  const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
 
   const search = () => {
-    service.getRecommendation(description).then(
-      ( recommendation: PossibleBook | null ) => { setRecommendation(recommendation) })
+    service.getRecommendations(description).then(
+      ( recommendations: PossibleBook[] ) => { 
+        setRecommendations(recommendations) })
       .catch((error: any) => {
         console.error("Error fetching recommendations:", error);
       })
@@ -22,20 +27,21 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <div className="search-area">
-          <label htmlFor="description">Description:</label>
-          <textarea
-          id="description"
-          placeholder="Tell me what you're looking for"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          />
-          <button onClick={search}>
+          <div className="search-box">
+            <label htmlFor="description">Description:</label>
+            <textarea
+            id="description"
+            className="description-text"
+            placeholder="What are you looking for?"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <button className="search-button" onClick={search}>
             Search
           </button>
         </div>
-        <p>
-          {recommendation ? recommendation.title : ""}
-        </p>
+        <BookResultList results={recommendations}/>
       </header>
     </div>
   );
