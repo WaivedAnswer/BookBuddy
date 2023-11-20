@@ -3,18 +3,16 @@ import {useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { PossibleBook, ChatBookRecommendationService } from './services/recommendations';
+import { PossibleBook, getRecommendationService } from './services/recommendations';
 
 import BookResultList from './components/BookResultList';
-
-const service = new ChatBookRecommendationService()
 
 function App() {
   const [description, setDescription] = useState("")
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
 
   const search = () => {
-    service.getRecommendations(description).then(
+    getRecommendationService().getRecommendations(description).then(
       ( recommendations: PossibleBook[] ) => { 
         setRecommendations(recommendations) })
       .catch((error: any) => {
