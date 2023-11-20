@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -15,7 +16,18 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-body {
+  background-color: #282c34;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +35,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .App-link {
   color: #61dafb;
@@ -81,14 +94,31 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.book-thumbnail {
-  width: 48px;
-  height: 48px;
+.book-results {
+  display: flex;
+  flex-direction: column;
+  margin: 10%;
 }
 
 .book-result {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 16px;
+  align-items: center;
+}
+
+.book-thumbnail {
+  width: 80%;
+  height: auto;
+  max-height: 80%;
+}
+
+.result-info {
+  text-align: left;
+}
+
+.loading-icon {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }

@@ -5,12 +5,15 @@ interface BookResultParams {
     result: PossibleBook
 }
 function BookResult( { result } : BookResultParams) {
+
     return ( 
     <div className="book-result">
         <img alt="placeholder book cover" src={img} className="book-thumbnail"/>
-        <p>
-          {result ? result.title : ""}
-        </p>
+        <div className="result-info">
+            <h2>{result.title}</h2>
+            <p><span className="heart" aria-hidden="true">&#x2665;&nbsp;&nbsp;&nbsp;&nbsp;</span>{result.reason}</p>
+        </div>
+        
     </div>
     )
 }

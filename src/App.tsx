@@ -1,6 +1,5 @@
-import {useState } from 'react';
+import {FormEvent, useState } from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 
 import { PossibleBook, getRecommendationService } from './services/recommendations';
@@ -10,37 +9,56 @@ import BookResultList from './components/BookResultList';
 function App() {
   const [description, setDescription] = useState("")
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
+  const [isSearching, setSearching] = useState(false)
 
-  const search = () => {
-    getRecommendationService().getRecommendations(description).then(
-      ( recommendations: PossibleBook[] ) => { 
-        setRecommendations(recommendations) })
-      .catch((error: any) => {
-        console.error("Error fetching recommendations:", error);
-      })
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    searchInner();
   }
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter' && !e.shiftKey) { // Check for Enter key and that Shift is not pressed
+        e.preventDefault(); // Prevents the default action (new line)
+        searchInner(); // Calls the submit function
+    }
+};
+
+function searchInner() {
+  setSearching(true);
+  setRecommendations([]);
+  getRecommendationService().getRecommendations(description).then(
+    (recommendations: PossibleBook[]) => {
+      setSearching(false);
+      setRecommendations(recommendations);
+    })
+    .catch((error: any) => {
+      console.error("Error fetching recommendations:", error);
+    });
+}
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className="search-area">
-          <div className="search-box">
-            <label htmlFor="description">Description:</label>
-            <textarea
-            id="description"
-            className="description-text"
-            placeholder="What are you looking for?"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-          <button className="search-button" onClick={search}>
-            Search
-          </button>
-        </div>
-        <BookResultList results={recommendations}/>
+        <h1>BookBuddy</h1>
+        <h3>Great Books. Just for you</h3>
       </header>
+      <div className="App-body">
+        <form className="search-area" onSubmit={handleSubmit}>
+            <div className="search-box">
+              <textarea
+              className="description-text"
+              placeholder="What are you looking for?"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              onKeyDown={handleKeyDown}
+              />
+            </div>
+            <button className="search-button" type="submit">
+              Search
+            </button>
+          </form>
+          <BookResultList results={recommendations} isSearching={isSearching}/>
+      </div>
     </div>
   );
 }

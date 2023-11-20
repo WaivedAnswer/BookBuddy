@@ -1,9 +1,9 @@
 import OpenAI from "openai";
 
 interface PossibleBook {
-    isbn: string;
     title: string;
     author: string;
+    reason: string;
 }
 
 interface BookRecommendationService {
@@ -46,29 +46,29 @@ export class FakeRecommendationService implements BookRecommendationService {
     async getRecommendations(lookingFor: string): Promise<PossibleBook[]> {
         return [
             {
-                "isbn": "9781840224337",
-                "title": "The Count of Monte Cristo",
-                "author": "Alexandre Dumas"
+                title: "The Count of Monte Cristo",
+                author: "Alexandre Dumas",
+                reason: "We think you will love this because A"
             },
             {
-                "isbn": "9780553213652",
-                "title": "Uncle Tom's Cabin",
-                "author": "Harriet Beecher Stowe"
+                title: "Uncle Tom's Cabin",
+                author: "Harriet Beecher Stowe",
+                reason: "We think you will love this because B"
             },
             {
-                "isbn": "9780140431957",
-                "title": "The Subjection of Women",
-                "author": "John Stuart Mill"
+                title: "The Subjection of Women",
+                author: "John Stuart Mill",
+                reason: "We think you will love this because C"
             },
             {
-                "isbn": "9780141441474",
-                "title": "A Room of One's Own",
-                "author": "Virginia Woolf"
+                title: "A Room of One's Own",
+                author: "Virginia Woolf",
+                reason: "We think you will love this because D"
             },
             {
-                "isbn": "0743482832",
-                "title": "Julius Caesar",
-                "author": "William Shakespeare"
+                title: "Julius Caesar",
+                author: "William Shakespeare",
+                reason: "We think you will love this because E"
             }
         ]
     }
