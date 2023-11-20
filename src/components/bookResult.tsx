@@ -6,11 +6,13 @@ interface BookResultParams {
 }
 function BookResult( { result } : BookResultParams) {
 
+   const amazonLink = "https://www.amazon.ca/s?k=" + result.title.replace(" ", "+")
     return ( 
     <div className="book-result">
         <img alt="placeholder book cover" src={img} className="book-thumbnail"/>
         <div className="result-info">
             <h2>{result.title}</h2>
+            <a href={amazonLink} target="_blank" rel="noreferrer">View on Amazon</a>
             <p><span className="heart" aria-hidden="true">&#x2665;&nbsp;&nbsp;&nbsp;&nbsp;</span>{result.reason}</p>
         </div>
         
