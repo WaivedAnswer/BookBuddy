@@ -11,8 +11,9 @@ function BookResult( { result } : BookResultParams) {
     <div className="book-result">
         <img alt="placeholder book cover" src={img} className="book-thumbnail"/>
         <div className="result-info">
-            <h2>{result.title}</h2>
-            <a href={amazonLink} target="_blank" rel="noreferrer">View on Amazon</a>
+            <a href={amazonLink} target="_blank" rel="noreferrer">
+                <h2>{result.title}</h2>
+            </a>
             <p><span className="heart" aria-hidden="true">&#x2665;&nbsp;&nbsp;&nbsp;&nbsp;</span>{result.reason}</p>
         </div>
         

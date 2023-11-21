@@ -122,3 +122,20 @@
   flex-direction: column;
   align-items: center;
 }
+
+a:link {
+  color: deepskyblue;
+}
+
+a:visited {
+  color: lightpink;
+}
+
+a:hover {
+  color: lightskyblue;
+}
+
+
+a:active {
+  color: lightcoral;
+}
