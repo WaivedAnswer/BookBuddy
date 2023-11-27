@@ -1,6 +1,7 @@
 import { PossibleBook } from "../services/recommendations"
 import BookResult from "./BookResult"
 import LoadingIcon from "./LoadingIcon"
+import { ListItem, OrderedList, VStack } from '@chakra-ui/react'
 
 interface BookResultListParams {
     results: PossibleBook[],
@@ -14,16 +15,15 @@ function BookResultList( { results, isSearching } : BookResultListParams) {
         return null
     }
     return ( 
-        <div className ="book-results">
-            <h1 className="result-title">Results</h1>
-            <ol>
+        <VStack className ="book-results">
+            <OrderedList>
             { results.map((book : PossibleBook) => (
-            <li key={book.title}>
+            <ListItem key={book.title}>
                 <BookResult result={book}/> 
-            </li>
+            </ListItem>
             ))}
-            </ol>
-        </div>
+            </OrderedList>
+        </VStack>
         
     )
 }

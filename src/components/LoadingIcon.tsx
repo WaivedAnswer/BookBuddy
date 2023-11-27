@@ -1,4 +1,4 @@
-import logo from '../logo.svg';
+import {Spinner, VStack } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
 
@@ -10,10 +10,9 @@ function LoadingIcon( ) {
         }
     }, [])
     return ( 
-    <div className="loading-icon" >
-        <img ref={myRef} src={logo} className="App-logo" alt="logo" />
-        Loading...
-    </div>
+    <VStack className="loading-icon" justifyContent="center">
+        <Spinner/>
+    </VStack>
     )
 }
 

@@ -1,59 +1,53 @@
-import {FormEvent, useState, useRef, useEffect } from 'react';
+import {useState, useRef, useEffect } from 'react';
 
-import { PossibleBook, getRecommendationService } from '../services/recommendations';
+import { Button, Container, Textarea, VStack } from '@chakra-ui/react';
 
 interface SearchAreaParams {
-    setSearching : Function;
-    setRecommendations : Function; 
+    onSearch : Function;
 }
 
-function SearchArea({setSearching, setRecommendations} : SearchAreaParams) {
+function SearchArea({onSearch} : SearchAreaParams) {
     const searchTextRef = useRef<HTMLTextAreaElement>(null)
     const [description, setDescription] = useState("")
     
     useEffect(() => {
-        if(searchTextRef.current) {
-            searchTextRef.current.focus()
-        }
+        const timer = setTimeout(() => {
+            if(searchTextRef.current) {
+                searchTextRef.current.focus()
+            }
+          }, 500); 
+      
+          return () => clearTimeout(timer); // Cleanup on unmount
+        
     }, [])
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        searchInner();
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        onSearch(description);
     }
 
     const handleKeyDown = (e: any) => {
         if (e.key === 'Enter' && !e.shiftKey) { // Check for Enter key and that Shift is not pressed
             e.preventDefault(); // Prevents the default action (new line)
-            searchInner(); // Calls the submit function
+            onSearch(description); // Calls the submit function
         }
     };
 
-    function searchInner() {
-    setSearching(true);
-    setRecommendations([]);
-    getRecommendationService().getRecommendations(description).then(
-        (recommendations: PossibleBook[]) => {
-        setSearching(false);
-        setRecommendations(recommendations);
-        })
-        .catch((error: any) => {
-        console.error("Error fetching recommendations:", error);
-        });
-    }
-    return (<form className="search-area" onSubmit={handleSubmit}>
-      <div className="search-box">
-        <textarea
-          ref = {searchTextRef}
-          className="description-text"
-          placeholder="What are you looking for?"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          onKeyDown={handleKeyDown} />
-      </div>
-      <button className="search-button" type="submit">
+    return (
+    <VStack className="search-area" justify="center">
+        <Container>
+            <Textarea
+            ref = {searchTextRef}
+            className="description-text"
+            placeholder="What are you looking for?"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            onKeyDown={handleKeyDown} />
+    </Container>
+      <Button className="search-button" onClick={handleSubmit} colorScheme='blue'>
         Search
-      </button>
-    </form>)
+      </Button>
+    </VStack>
+    )
   }
 
  export default SearchArea;

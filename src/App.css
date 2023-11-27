@@ -1,3 +1,4 @@
+/*
 .App {
   text-align: center;
   height: 100vh;
@@ -69,7 +70,7 @@
 
 .search-button {
   padding: 10px 20px;
-  background-color: #007BFF; /* Primary Blue */
+  background-color: #007BFF; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -79,18 +80,18 @@
   transition: background-color 0.3s, transform 0.2s;
   outline: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  text-transform: uppercase; /* Optional: makes text uppercase */
+  text-transform: uppercase; 
 }
 
 
 .search-button:hover, .search-button:focus {
-  background-color: #0056b3; /* Darker shade of blue */
-  transform: translateY(-2px); /* Slightly raise the button */
+  background-color: #0056b3; 
+  transform: translateY(-2px); 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .search-button:active {
-  transform: translateY(1px); /* Button pressed effect */
+  transform: translateY(1px); 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -138,4 +139,4 @@ a:hover {
 
 a:active {
   color: lightcoral;
-}
+}*/
