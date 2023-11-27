@@ -1,4 +1,3 @@
-import OpenAI from "openai";
 
 interface PossibleBook {
     title: string;
