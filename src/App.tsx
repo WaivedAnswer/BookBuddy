@@ -39,9 +39,9 @@ function App() {
     <Flex className="App" direction="column">
       <header className="App-header">
         <Heading as="h1">FindMyRead</Heading>
-        <Text size="xs">Find Great Books. Just For You</Text>
+        <Text size="xs">Great Books. Just For You</Text>
       </header>
-      <Accordion className="App-body" h="100%" defaultIndex={0} index={accordionIndex} onChange={onAccordionChange}>
+      <Accordion className="App-body" h="100%" defaultIndex={0} index={accordionIndex} onChange={onAccordionChange} margin="10%">
         <AccordionItem>
           <AccordionButton>
             <Container>
