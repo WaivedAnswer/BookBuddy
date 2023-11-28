@@ -31,12 +31,14 @@ export class ChatBookRecommendationService implements BookRecommendationService 
             return response.json()
         })
         .then((responseData) => {
+            if(!responseData.body) {
+                throw new Error('Failed to retrieve results. Try again.')
+            }
             const recommendationData: ResponseData = JSON.parse(responseData.body)
+            if(!recommendationData.results) {
+                throw new Error('Failed to retrieve results. Try again.')
+            }
             return recommendationData.results
-        })
-        .catch(error => {
-            console.error("Fetch error:", error)
-            return []
         })
     }
 }

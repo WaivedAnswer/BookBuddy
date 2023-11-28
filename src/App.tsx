@@ -6,12 +6,23 @@ import { PossibleBook, getRecommendationService } from './services/recommendatio
 
 import BookResultList from './components/BookResultList';
 import SearchArea from './components/SearchArea';
-import {Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Center, Container, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+  Accordion, 
+  AccordionButton, 
+  AccordionIcon, 
+  AccordionItem, 
+  AccordionPanel, 
+  Container, 
+  Flex, 
+  Heading, 
+  Text,
+  useToast } from '@chakra-ui/react';
 
 function App() {
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
   const [isSearching, setSearching] = useState(false)
   const [accordionIndex, setAccordionIndex] = useState(0)
+  const errorToast = useToast()
 
   const populateResults = (results: PossibleBook[]) => {
     setRecommendations(results)
@@ -25,14 +36,23 @@ function App() {
     setSearching(true)
     setAccordionIndex(1)
     populateResults([])
-    getRecommendationService().getRecommendations(description).then(
-        (recommendations: PossibleBook[]) => {
-        setSearching(false)
+    getRecommendationService().getRecommendations(description)
+      .then((recommendations: PossibleBook[]) => {
         populateResults(recommendations)
+      })
+      .catch((error: any) => {
+        setAccordionIndex(0)
+        errorToast({
+          title: 'Recommendation Failed',
+          description: "Please try again.",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
         })
-        .catch((error: any) => {
-        console.error("Error fetching recommendations:", error)
-        });
+      })
+      .finally( () => {
+        setSearching(false)
+      })
     }
 
   return (
@@ -41,7 +61,7 @@ function App() {
         <Heading as="h1">FindMyRead</Heading>
         <Text size="xs">Great Books. Just For You</Text>
       </header>
-      <Accordion className="App-body" h="100%" defaultIndex={0} index={accordionIndex} onChange={onAccordionChange} margin="10%">
+      <Accordion className="App-body" h="100%" defaultIndex={0} index={accordionIndex} onChange={onAccordionChange} margin={{base:"0%", md:"5%", lg: "10%"}}>
         <AccordionItem>
           <AccordionButton>
             <Container>
