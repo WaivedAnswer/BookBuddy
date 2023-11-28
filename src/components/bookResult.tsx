@@ -1,6 +1,6 @@
 import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
-import {AspectRatio, Card, Container, Flex, Heading, Image, Link, Text } from "@chakra-ui/react"
+import {AspectRatio, Flex, Heading, Image, Link, Text } from "@chakra-ui/react"
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 interface BookResultParams {
