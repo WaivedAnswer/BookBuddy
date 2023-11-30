@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './App.css';
 
@@ -18,6 +18,7 @@ import {
   Text,
   useToast } from '@chakra-ui/react';
 
+
 function App() {
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
   const [isSearching, setSearching] = useState(false)
@@ -31,29 +32,68 @@ function App() {
   const onAccordionChange = (accordionIndex: any) => {
     setAccordionIndex(accordionIndex)
   }
+  
 
-  function onSearch(description: string) {
+  const onRecommendation = (recommendation : PossibleBook) => {
+    setSearching(false)
+    //TODO figure out how to get the immediate value of recommendations
+    setRecommendations([...recommendations, recommendation])
+  }
+  
+  const setAllRecommendations = (allRecommendations : PossibleBook[]) => {
+    setRecommendations(allRecommendations)
+  }
+
+  async function onSearch(description: string) {
     setSearching(true)
     setAccordionIndex(1)
     populateResults([])
-    getRecommendationService().getRecommendations(description)
-      .then((recommendations: PossibleBook[]) => {
-        populateResults(recommendations)
-      })
-      .catch((error: any) => {
-        setAccordionIndex(0)
-        errorToast({
-          title: 'Recommendation Failed',
-          description: "Please try again.",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      })
-      .finally( () => {
-        setSearching(false)
-      })
-    }
+
+    await getRecommendationService().getRecommendationStream(description, onRecommendation, setAllRecommendations)
+    setSearching(false)
+    //   return reader?.read().then(
+    //     function processText({ done, value }) : any {
+    //     if (done) return;
+    //     const chunk = new TextDecoder("utf-8").decode(value);
+    //     const resultChunks = chunk.split("\n")
+    //     for( let result of resultChunks) {
+    //       if(result.indexOf('{') === -1) {
+    //         continue;
+    //       }
+    //       try {
+    //         console.log(result)
+    //         const bookObj = JSON.parse(result);
+    //         if( "title" in bookObj && "author" in bookObj && "reason" in bookObj) {
+    //           setSearching(false)
+    //           updatedRecommendations = [...updatedRecommendations, bookObj]
+    //           setRecommendations( updatedRecommendations);
+    //         }
+    //       } catch (e) {
+    //         console.error('Error parsing chunk', e);
+    //       }
+    //     }
+    //     return reader.read().then(processText);
+    //   });
+    // });
+
+    // getRecommendationService().getRecommendations(description)
+    //   .then((recommendations: PossibleBook[]) => {
+    //     populateResults(recommendations)
+    //   })
+    //   .catch((error: any) => {
+    //     setAccordionIndex(0)
+    //     errorToast({
+    //       title: 'Recommendation Failed',
+    //       description: "Please try again.",
+    //       status: 'error',
+    //       duration: 9000,
+    //       isClosable: true,
+    //     })
+    //   })
+    //   .finally( () => {
+    //     setSearching(false)
+    //   })
+  }
 
   return (
     <Flex className="App" direction="column">
