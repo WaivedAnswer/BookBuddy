@@ -10,13 +10,13 @@ interface BookResultListParams {
 }
 function BookResultList( { results, isSearching, currentSearch } : BookResultListParams) {
     return ( 
-        <VStack className ="book-results" display="flex" justifyContent="center">
+        <VStack display="flex" justifyContent="center" width="100%">
             {
                 results.length === 0 ? "" :
                 (//TODO make list span 100% of width
-                    <UnorderedList spacing={8} >
+                    <UnorderedList spacing={8} width="100%">
                     { results.map((book : PossibleBook) => (
-                    <ListItem key={book.title} display="flex" width="600px">
+                    <ListItem key={book.title} display="flex">
                         <BookResult result={book} currentSearch={currentSearch} /> 
                     </ListItem>
                     ))}

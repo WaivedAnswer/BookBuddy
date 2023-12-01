@@ -12,7 +12,7 @@ function BookReason( {book, currentSearch } : BookReasonParams) {
   useEffect(() => {
     async function loadReason() {
         const result = await getRecommendationService().getReason(book, currentSearch)
-        setReason(result)
+        setReason(previousReason => previousReason ? previousReason : result)
     }
     loadReason()
   }, [book, currentSearch])

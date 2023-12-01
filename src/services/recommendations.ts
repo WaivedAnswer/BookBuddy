@@ -14,10 +14,36 @@ interface ResponseData {
     results: PossibleBook[]
 }
 
+interface ReasonResponseData {
+    reason: string
+}
+
 export class ChatBookRecommendationService implements BookRecommendationService {
     async getReason(book: PossibleBook, lookingFor: string): Promise<string> {
-        await new Promise(r => setTimeout(r, 2000));
-        return `${book.title} is a great book that I am sure you will love because of your interest in "${lookingFor}"`
+        //TODO replace URLs with environment variables?
+        return fetch("https://xz6ywnep4pctm7wbxubq366rei0irhty.lambda-url.us-east-2.on.aws/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                lookingFor: lookingFor,
+                bookTitle: book.title,
+                bookAuthor: book.author
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then((responseData : ReasonResponseData) => {
+            if(!responseData.reason) {
+                throw new Error('Failed to retrieve results. Try again.')
+            }
+            return responseData.reason
+        })
     }
     
     async getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void> {
