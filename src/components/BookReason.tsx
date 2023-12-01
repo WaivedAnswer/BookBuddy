@@ -3,18 +3,19 @@ import { useEffect, useState } from "react"
 import { PossibleBook, getRecommendationService } from "../services/recommendations"
 
 interface BookReasonParams {
-    book: PossibleBook
+    book: PossibleBook,
+    currentSearch: string,
 }
 
-function BookReason( {book } : BookReasonParams) {
+function BookReason( {book, currentSearch } : BookReasonParams) {
   const [reason, setReason] = useState<string | null>(null)
   useEffect(() => {
     async function loadReason() {
-        const result = await getRecommendationService().getReason(book, "I am looking for good books")
+        const result = await getRecommendationService().getReason(book, currentSearch)
         setReason(result)
     }
     loadReason()
-  }, [book])
+  }, [book, currentSearch])
   return ( 
 
       <Box>

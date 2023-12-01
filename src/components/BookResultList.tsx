@@ -5,9 +5,10 @@ import { ListItem, UnorderedList, VStack } from '@chakra-ui/react'
 
 interface BookResultListParams {
     results: PossibleBook[],
-    isSearching: boolean
+    isSearching: boolean,
+    currentSearch: string,
 }
-function BookResultList( { results, isSearching } : BookResultListParams) {
+function BookResultList( { results, isSearching, currentSearch } : BookResultListParams) {
     return ( 
         <VStack className ="book-results" display="flex" justifyContent="center">
             {
@@ -16,7 +17,7 @@ function BookResultList( { results, isSearching } : BookResultListParams) {
                     <UnorderedList spacing={8} >
                     { results.map((book : PossibleBook) => (
                     <ListItem key={book.title} display="flex" width="600px">
-                        <BookResult result={book}/> 
+                        <BookResult result={book} currentSearch={currentSearch} /> 
                     </ListItem>
                     ))}
                     </UnorderedList>

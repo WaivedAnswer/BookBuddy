@@ -21,6 +21,7 @@ import {
 
 function App() {
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
+  const [currentSearch, setCurrentSearch] = useState<string>("")
   const [isSearching, setSearching] = useState(false)
   const [accordionIndex, setAccordionIndex] = useState(0)
   const errorToast = useToast()
@@ -35,64 +36,17 @@ function App() {
   
 
   const onRecommendation = (recommendation : PossibleBook) => {
-    setSearching(false)
-    //TODO figure out how to get the immediate value of recommendations
-    setRecommendations([...recommendations, recommendation])
-  }
-  
-  const setAllRecommendations = (allRecommendations : PossibleBook[]) => {
-    setRecommendations(allRecommendations)
+    setRecommendations(prevRecommendations => [...prevRecommendations, recommendation])
   }
 
   async function onSearch(description: string) {
+    setCurrentSearch(description)
     setSearching(true)
     setAccordionIndex(1)
     populateResults([])
 
-    await getRecommendationService().getRecommendationStream(description, onRecommendation, setAllRecommendations)
+    await getRecommendationService().getRecommendationStream(description, onRecommendation)
     setSearching(false)
-    //   return reader?.read().then(
-    //     function processText({ done, value }) : any {
-    //     if (done) return;
-    //     const chunk = new TextDecoder("utf-8").decode(value);
-    //     const resultChunks = chunk.split("\n")
-    //     for( let result of resultChunks) {
-    //       if(result.indexOf('{') === -1) {
-    //         continue;
-    //       }
-    //       try {
-    //         console.log(result)
-    //         const bookObj = JSON.parse(result);
-    //         if( "title" in bookObj && "author" in bookObj && "reason" in bookObj) {
-    //           setSearching(false)
-    //           updatedRecommendations = [...updatedRecommendations, bookObj]
-    //           setRecommendations( updatedRecommendations);
-    //         }
-    //       } catch (e) {
-    //         console.error('Error parsing chunk', e);
-    //       }
-    //     }
-    //     return reader.read().then(processText);
-    //   });
-    // });
-
-    // getRecommendationService().getRecommendations(description)
-    //   .then((recommendations: PossibleBook[]) => {
-    //     populateResults(recommendations)
-    //   })
-    //   .catch((error: any) => {
-    //     setAccordionIndex(0)
-    //     errorToast({
-    //       title: 'Recommendation Failed',
-    //       description: "Please try again.",
-    //       status: 'error',
-    //       duration: 9000,
-    //       isClosable: true,
-    //     })
-    //   })
-    //   .finally( () => {
-    //     setSearching(false)
-    //   })
   }
 
   return (
@@ -125,7 +79,7 @@ function App() {
             <AccordionIcon/>
           </AccordionButton>
           <AccordionPanel>
-            <BookResultList results={recommendations} isSearching={isSearching}/>
+            <BookResultList results={recommendations} isSearching={isSearching} currentSearch={currentSearch}/>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
