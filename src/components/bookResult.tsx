@@ -10,7 +10,6 @@ interface BookResultParams {
 }
 function BookResult( { result, currentSearch } : BookResultParams) {
   const amazonLink = "https://www.amazon.ca/s?k=" + result.title.replace(" ", "+")
-  //TODO fix image sizes with title
   return ( 
 
       <Flex 

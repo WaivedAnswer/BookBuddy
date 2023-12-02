@@ -20,15 +20,21 @@ function SearchArea({onSearch} : SearchAreaParams) {
           return () => clearTimeout(timer); // Cleanup on unmount
         
     }, [])
+
+    const search = (description: string) => {
+        searchTextRef.current?.blur()
+        console.log(searchTextRef.current)
+        onSearch(description)
+    }
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        onSearch(description);
+        search(description);
     }
 
-    const handleKeyDown = (e: any) => {
-        if (e.key === 'Enter' && !e.shiftKey) { // Check for Enter key and that Shift is not pressed
-            e.preventDefault(); // Prevents the default action (new line)
-            onSearch(description); // Calls the submit function
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            search(description);
         }
     };
 
@@ -38,7 +44,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
             <Textarea
             ref = {searchTextRef}
             className="description-text"
-            placeholder="What are you looking for?"
+            placeholder="Describe the book you are looking for."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={handleKeyDown} />

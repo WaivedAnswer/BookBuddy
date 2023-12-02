@@ -13,7 +13,7 @@ function BookResultList( { results, isSearching, currentSearch } : BookResultLis
         <VStack display="flex" justifyContent="center" width="100%">
             {
                 results.length === 0 ? "" :
-                (//TODO make list span 100% of width
+                (
                     <UnorderedList spacing={8} width="100%">
                     { results.map((book : PossibleBook) => (
                     <ListItem key={book.title} display="flex">
