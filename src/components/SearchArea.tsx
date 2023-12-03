@@ -43,7 +43,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
         <Container>
             <HStack justify="center" >
                 <Heading fontSize="md" margin={2}>Description</Heading>
-                <Popover placement="right-start">
+                <Popover placement="bottom">
                     <PopoverTrigger>
                         <IconButton
                             aria-label="Description Examples"
