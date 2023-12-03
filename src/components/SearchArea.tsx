@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect } from 'react';
 
-import { Button, Container, Textarea, VStack } from '@chakra-ui/react';
+import { Button, Container, HStack, Heading, IconButton, ListItem, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Textarea, Text, UnorderedList, VStack } from '@chakra-ui/react';
+import { InfoIcon } from '@chakra-ui/icons';
 
 interface SearchAreaParams {
     onSearch : Function;
@@ -23,7 +24,6 @@ function SearchArea({onSearch} : SearchAreaParams) {
 
     const search = (description: string) => {
         searchTextRef.current?.blur()
-        console.log(searchTextRef.current)
         onSearch(description)
     }
     const handleSubmit = (e: any) => {
@@ -41,10 +41,39 @@ function SearchArea({onSearch} : SearchAreaParams) {
     return (
     <VStack className="search-area" justify="center">
         <Container>
+            <HStack justify="center" >
+                <Heading fontSize="md">Description</Heading>
+                <Popover placement="right-start">
+                    <PopoverTrigger>
+                        <IconButton
+                            aria-label="Description Examples"
+                            icon={<InfoIcon />}
+                            isRound={true}
+                            size="sm"
+                            variant="outline"
+                        />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                    <PopoverArrow />
+    <PopoverCloseButton />
+    <PopoverHeader>Description Criteria</PopoverHeader>
+    <PopoverBody>
+                    <Text>You can make your search as simple or complex as you like. For example:</Text>
+                        <UnorderedList>
+                            <ListItem>I want great books on cooking</ListItem>
+                            <ListItem>I am looking for a gripping mystery novel with a strong female detective</ListItem>
+                            <ListItem>I am looking for a motivational book that blends self-help with practical career advice, like Atomic Habits</ListItem>
+                        </UnorderedList>
+    </PopoverBody>
+                        
+                        
+                    </PopoverContent>
+                </Popover>
+            </HStack>
             <Textarea
             ref = {searchTextRef}
             className="description-text"
-            placeholder="Describe the book you are looking for."
+            placeholder="Describe the book you are looking for"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={handleKeyDown} />
