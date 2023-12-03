@@ -20,7 +20,7 @@ function BookReason( {book, currentSearch } : BookReasonParams) {
 
       <Flex direction="column" justify="center">
         {reason ? 
-        <Text fontSize="lg">
+        <Text fontSize={{base:"lg", lg:"xl", xl:"2xl"}}>
             <Text as="span" fontWeight="bold">Why You'll Love This: </Text>{reason}
         </Text> : 
         <SkeletonText noOfLines={2} mt='4' spacing='4' skeletonHeight='2' isLoaded={reason != null}/>}

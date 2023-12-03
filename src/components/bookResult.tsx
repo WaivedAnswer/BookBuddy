@@ -20,7 +20,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
       className="book-result" 
       width="100%">
       <CardHeader>
-        <Heading size={{base:"lg", sm:"md"}}>{result.title}</Heading>
+        <Heading size={{base:"lg", sm:"md", lg:"lg"}}>{result.title}</Heading>
       </CardHeader>
       <CardBody>
         <Flex direction={{base: "column", sm: "row"}} gap={{base:4, md:8}}>
