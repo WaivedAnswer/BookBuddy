@@ -1,6 +1,6 @@
 import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
-import {AspectRatio, Button, Card, Flex, HStack, Heading, Image, Text } from "@chakra-ui/react"
+import {AspectRatio, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Text } from "@chakra-ui/react"
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import BookReason from "./BookReason"
 
@@ -13,22 +13,32 @@ function BookResult( { result, currentSearch } : BookResultParams) {
   return ( 
 
     <Card 
-    padding={4}
-      direction={{ base: "column", sm: "row" }} 
+      padding={4}
+      size="sm"
+      variant="outline"
+      direction={{ base: "column" }} 
       className="book-result" 
       width="100%">
-      <AspectRatio ratio={1 / 1} width={{ base: "90%", sm: "100%", md: "70%" }} flex="1">
-        <Image alt="placeholder book cover" src={img} objectFit="cover"/>
-      </AspectRatio>
-    
-      <Flex direction="column" p={4} flex="3" justify="space-between" gap={4}>
-        <Heading size="lg">{result.title}</Heading>
-        <BookReason book={result} currentSearch={currentSearch}/>
+      <CardHeader>
+        <Heading size={{base:"lg", sm:"md"}}>{result.title}</Heading>
+      </CardHeader>
+      <CardBody>
+        <Flex direction={{base: "column", sm: "row"}} gap={{base:4, md:8}}>
+          <AspectRatio ratio={1 / 1} width="100%" flex="1" >
+            <Image alt="placeholder book cover" src={img} objectFit="cover"/>
+          </AspectRatio>
+          <Box flex="3">
+            <BookReason book={result} currentSearch={currentSearch}/>
+          </Box>
+        </Flex>
+      </CardBody>
+      
+      <CardFooter>
         <HStack>
           <Text size="md" as="b">View on:</Text>
-          <Button as="a" href={amazonLink} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon<ExternalLinkIcon/></Button>
+          <Button as="a" href={amazonLink} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button>
         </HStack>
-      </Flex>
+      </CardFooter>
     </Card>
   )
 }
