@@ -42,7 +42,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
     <VStack className="search-area" justify="center">
         <Container>
             <HStack justify="center" >
-                <Heading fontSize="md">Description</Heading>
+                <Heading fontSize="md" margin={2}>Description</Heading>
                 <Popover placement="right-start">
                     <PopoverTrigger>
                         <IconButton
