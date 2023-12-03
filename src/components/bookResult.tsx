@@ -24,7 +24,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
       </CardHeader>
       <CardBody>
         <Flex direction={{base: "column", sm: "row"}} gap={{base:4, md:8}}>
-          <AspectRatio ratio={1 / 1} width="100%" flex="1" >
+          <AspectRatio ratio={1 / 1} width={{base:"90%", sm:"100%"}} flex="1" >
             <Image alt="placeholder book cover" src={img} objectFit="cover"/>
           </AspectRatio>
           <Box flex="3">
