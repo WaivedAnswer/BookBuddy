@@ -1,6 +1,6 @@
 import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
-import {AspectRatio, Flex, Heading, Image, Link, Text } from "@chakra-ui/react"
+import {AspectRatio, Button, Card, Flex, HStack, Heading, Image, Text } from "@chakra-ui/react"
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import BookReason from "./BookReason"
 
@@ -12,7 +12,8 @@ function BookResult( { result, currentSearch } : BookResultParams) {
   const amazonLink = "https://www.amazon.ca/s?k=" + result.title.replace(" ", "+")
   return ( 
 
-      <Flex 
+    <Card 
+    padding={4}
       direction={{ base: "column", sm: "row" }} 
       className="book-result" 
       width="100%">
@@ -20,13 +21,15 @@ function BookResult( { result, currentSearch } : BookResultParams) {
         <Image alt="placeholder book cover" src={img} objectFit="cover"/>
       </AspectRatio>
     
-      <Flex direction="column" p={4} flex="3">
-        <Link href={amazonLink} target="_blank" rel="noreferrer" isExternal>
-          <Heading size="md">{result.title} <ExternalLinkIcon mx='2px' /></Heading>
-        </Link>
+      <Flex direction="column" p={4} flex="3" justify="space-between" gap={4}>
+        <Heading size="lg">{result.title}</Heading>
         <BookReason book={result} currentSearch={currentSearch}/>
+        <HStack>
+          <Text size="md" as="b">View on:</Text>
+          <Button as="a" href={amazonLink} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon<ExternalLinkIcon/></Button>
+        </HStack>
       </Flex>
-    </Flex>
+    </Card>
   )
 }
 

@@ -1,4 +1,4 @@
-import {Box, SkeletonText, Text } from "@chakra-ui/react"
+import {Box, Flex, SkeletonText, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { PossibleBook, getRecommendationService } from "../services/recommendations"
 
@@ -18,12 +18,11 @@ function BookReason( {book, currentSearch } : BookReasonParams) {
   }, [book, currentSearch])
   return ( 
 
-      <Box>
-        <SkeletonText noOfLines={2} mt='4' spacing='4' skeletonHeight='2' isLoaded={reason != null}>
-        </SkeletonText>
-        <Text fontSize="lg">{reason}</Text>
-        
-      </Box>
+      <Flex direction="column" justify="center">
+        {reason ? 
+        <Text fontSize="lg">{reason}</Text> : 
+        <SkeletonText noOfLines={2} mt='4' spacing='4' skeletonHeight='2' isLoaded={reason != null}/>}
+      </Flex>
   )
 }
 
