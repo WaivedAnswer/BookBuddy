@@ -50,14 +50,19 @@ function App() {
   }
 
   return (
-    <Flex className="App" direction="column">
-      <header className="App-header">
-        <Heading as="h1">FindMyRead</Heading>
-        <Text size="xs">Great Books. Just For You</Text>
-      </header>
-      <Accordion className="App-body" h="100%" defaultIndex={0} index={accordionIndex} onChange={onAccordionChange} margin={{base:"0%", md:"5%", lg: "10%"}}>
+    <Flex className="App" direction="column" height="100vh">
+      <Flex as="header" className="App-header" direction="column" width="100%" bgColor="primary" align="center">
+        <Heading as="h1" color="white">FindMyRead</Heading>
+        <Text size="xs" color="white">Great Books. Just For You</Text>
+      </Flex>
+      <Accordion className="App-body" h="100%" 
+      defaultIndex={0} 
+      index={accordionIndex} 
+      onChange={onAccordionChange} 
+      margin={{base:"0%", md:"5%", lg: "10%"}}
+      borderRadius="5">
         <AccordionItem>
-          <AccordionButton>
+          <AccordionButton> 
             <Container>
               <Heading>
                 Search
