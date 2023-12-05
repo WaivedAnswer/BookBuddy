@@ -1,15 +1,25 @@
 import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
 import {AspectRatio, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Text } from "@chakra-ui/react"
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import BookReason from "./BookReason"
+import { AmazonBestSellerLinkGenerator } from "../services/linkGenerations"
+import { useEffect, useState } from "react"
 
 interface BookResultParams {
   result: PossibleBook,
   currentSearch: string,
 }
 function BookResult( { result, currentSearch } : BookResultParams) {
-  const amazonLink = "https://www.amazon.ca/s?k=" + result.title.replace(" ", "+")
+  const [link, setLink] = useState<string | null>(null)
+  useEffect(() => {
+    async function generateLink() {
+      const linkService = new AmazonBestSellerLinkGenerator()
+      const newLink = await linkService.generateLink(result.title, result.author)
+      setLink(newLink)
+    }
+    generateLink()
+  })
+  
   return ( 
 
     <Card 
@@ -36,7 +46,10 @@ function BookResult( { result, currentSearch } : BookResultParams) {
       <CardFooter>
         <HStack>
           <Text size="md" as="b">View on:</Text>
-          <Button as="a" href={amazonLink} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button>
+          {
+            link ? <Button as="a" href={link} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
+            ""
+          }
         </HStack>
       </CardFooter>
     </Card>
