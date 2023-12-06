@@ -11,7 +11,7 @@ function LoadingIcon( ) {
     }, [])
     return ( 
     <VStack className="loading-icon" justifyContent="center">
-        <Spinner/>
+        <Spinner size="xl" margin={4}/>
     </VStack>
     )
 }

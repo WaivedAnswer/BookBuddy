@@ -40,9 +40,12 @@ function App() {
   }
 
   async function onSearch(description: string) {
-    setCurrentSearch(description)
-    setSearching(true)
     setAccordionIndex(1)
+    if(isSearching) {
+      return
+    }
+    setSearching(true)
+    setCurrentSearch(description)
     populateResults([])
 
     await getRecommendationService().getRecommendationStream(description, onRecommendation)
