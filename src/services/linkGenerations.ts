@@ -2,6 +2,10 @@ interface LinkGenerationService {
     generateLink(bookTitle: string, bookAuthor: string) : Promise<string>
 }
 
+interface LinkResponseData {
+    link: string
+}
+
 export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
     private bestSellers : Map<string, string> = new Map([
         //Software
@@ -198,8 +202,49 @@ export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
         if(newLink) {
             return newLink
         } else {
-            return "https://www.amazon.ca/s?k=" + bookTitle.replace(" ", "+")
+            return fetch("https://sc2slkrny7rmct6gtx7h5gwwt40lonrx.lambda-url.us-east-2.on.aws/", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    bookTitle: bookTitle,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json()
+            })
+            .then((responseData : LinkResponseData) => {
+                if(!responseData.link) {
+                    throw new Error('Failed to retrieve link. Try again.')
+                }
+                return responseData.link
+            })
         }
+    }
+
+}
+
+class FakeLinkGenerationService implements LinkGenerationService {
+    async generateLink(bookTitle: string, bookAuthor: string): Promise<string> {
+        await new Promise(r => setTimeout(r, 2000));
+        return getFixedLink(bookTitle)
+    }
+
+}
+
+export function getFixedLink(bookTitle: string) {
+   return "https://www.amazon.ca/s?k=" + bookTitle.replaceAll(" ", "+") + "&tag=myread0a-20"
+}
+
+export function getLinkGenerationService() {
+    if(process.env.REACT_APP_REC_SERVICE === "true") {
+         return new AmazonBestSellerLinkGenerator()
+    } else {
+        return new FakeLinkGenerationService()
     }
 
 }
