@@ -2,7 +2,7 @@ import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
 import {AspectRatio, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Spinner, Text } from "@chakra-ui/react"
 import BookReason from "./BookReason"
-import { AmazonBestSellerLinkGenerator, getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
+import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
 
 interface BookResultParams {
