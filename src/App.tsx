@@ -12,6 +12,7 @@ import {
   AccordionIcon, 
   AccordionItem, 
   AccordionPanel, 
+  Box, 
   Container, 
   Flex, 
   Heading, 
@@ -91,6 +92,9 @@ function App() {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+      <Box textAlign="center" margin={4}>
+        <Text size="xs" fontWeight="light" fontStyle="italic">* As an Amazon Associate I earn from qualifying purchases.</Text>
+      </Box>
     </Flex>
   );
 }
