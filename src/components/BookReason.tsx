@@ -11,8 +11,13 @@ function BookReason( {book, currentSearch } : BookReasonParams) {
   const [reason, setReason] = useState<string | null>(null)
   useEffect(() => {
     async function loadReason() {
+      try {
         const result = await getRecommendationService().getReason(book, currentSearch)
         setReason(previousReason => previousReason ? previousReason : result)
+      } catch (error) {
+        setReason(`${book.title} is highly recommended by your fellow readers. We are sure you'll love it!`)
+      }
+      
     }
     loadReason()
   }, [book, currentSearch])

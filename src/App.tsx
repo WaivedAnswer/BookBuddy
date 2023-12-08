@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import './App.css';
 
@@ -19,14 +19,21 @@ import {
   Text,
   useToast } from '@chakra-ui/react';
 
+enum SearchStatus {
+  INITIAL,
+  SEARCHING,
+  COMPLETE,
+  ERROR
+}
 
 function App() {
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
   const [currentSearch, setCurrentSearch] = useState<string>("")
-  const [isSearching, setSearching] = useState(false)
+  const [searchStatus, setSearchStatus] = useState<SearchStatus>(SearchStatus.INITIAL)
   const [accordionIndex, setAccordionIndex] = useState(0)
   const errorToast = useToast()
 
+  
   const populateResults = (results: PossibleBook[]) => {
     setRecommendations(results)
   }
@@ -40,17 +47,43 @@ function App() {
     setRecommendations(prevRecommendations => [...prevRecommendations, recommendation])
   }
 
+  useEffect( () => {
+    if(searchStatus === SearchStatus.ERROR && recommendations.length === 0) {
+      setAccordionIndex(0)
+      errorToast({
+        title: 'Search Failed',
+        description: "Try again in a few minutes",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    } else if(searchStatus === SearchStatus.COMPLETE && recommendations.length === 0 ) {
+      errorToast({
+        title: 'No Results Found',
+        description: "Try a different search",
+        status: 'info',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+      
+  }, [errorToast, recommendations, searchStatus])
+
   async function onSearch(description: string) {
     setAccordionIndex(1)
-    if(isSearching) {
+    if(searchStatus === SearchStatus.SEARCHING) {
       return
     }
-    setSearching(true)
+    setSearchStatus(SearchStatus.SEARCHING)
     setCurrentSearch(description)
     populateResults([])
 
-    await getRecommendationService().getRecommendationStream(description, onRecommendation)
-    setSearching(false)
+    try {
+      await getRecommendationService().getRecommendationStream(description, onRecommendation)
+      setSearchStatus(SearchStatus.COMPLETE)
+    } catch (error) {
+      setSearchStatus(SearchStatus.ERROR)
+    }
   }
 
   return (
@@ -78,7 +111,7 @@ function App() {
             <SearchArea onSearch={onSearch}/>
           </AccordionPanel>
         </AccordionItem>
-        <AccordionItem isDisabled={!isSearching && recommendations.length === 0}>
+        <AccordionItem isDisabled={searchStatus !== SearchStatus.SEARCHING && recommendations.length === 0}>
           <AccordionButton>
           <Container>
               <Heading>
@@ -88,7 +121,7 @@ function App() {
             <AccordionIcon/>
           </AccordionButton>
           <AccordionPanel>
-            <BookResultList results={recommendations} isSearching={isSearching} currentSearch={currentSearch}/>
+            <BookResultList results={recommendations} isSearching={searchStatus === SearchStatus.SEARCHING} currentSearch={currentSearch}/>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
