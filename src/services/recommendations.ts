@@ -58,7 +58,10 @@ export class ChatBookRecommendationService implements BookRecommendationService 
                     lookingFor: lookingFor
                 })
             })
-    
+            if(!response.ok) {
+                throw new Error("Failed to retrieve results")
+            }
+            
             const reader = response.body?.getReader()
             const decoder = new TextDecoder("utf-8")
             let curr_recommendation_string = ""

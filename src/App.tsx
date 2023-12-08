@@ -80,9 +80,9 @@ function App() {
 
     try {
       await getRecommendationService().getRecommendationStream(description, onRecommendation)
-      setSearchStatus(SearchStatus.COMPLETE)
+        setSearchStatus(SearchStatus.COMPLETE)
     } catch (error) {
-      setSearchStatus(SearchStatus.ERROR)
+        setSearchStatus(SearchStatus.ERROR)
     }
   }
 
