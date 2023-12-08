@@ -78,7 +78,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={handleKeyDown} />
     </Container>
-      <Button className="search-button" onClick={handleSubmit} colorScheme='blue'>
+      <Button isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
         Search
       </Button>
     </VStack>
