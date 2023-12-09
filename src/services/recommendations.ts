@@ -90,9 +90,11 @@ export class ChatBookRecommendationService implements BookRecommendationService 
                         const result_end = curr_index
                         const curr_result = curr_recommendation_string.slice(result_start, result_end + 1)
                         if(curr_result.indexOf(']') === -1) {
-                            const book : any = JSON.parse(curr_result)
-                            if("title" in book && "author" in book) {
-                                onRecommendation(book)
+                            const object : any = JSON.parse(curr_result)
+                            if("title" in object && "author" in object) {
+                                onRecommendation(object)
+                            } else if ("error" in object) {
+                                throw new Error(object.error)
                             }
                         }
                     }

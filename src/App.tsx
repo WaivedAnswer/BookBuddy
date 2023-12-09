@@ -23,7 +23,8 @@ enum SearchStatus {
   INITIAL,
   SEARCHING,
   COMPLETE,
-  ERROR
+  ERROR,
+  MODERATION_ERROR
 }
 
 function App() {
@@ -57,7 +58,16 @@ function App() {
         duration: 9000,
         isClosable: true,
       })
-    } else if(searchStatus === SearchStatus.COMPLETE && recommendations.length === 0 ) {
+    } else if(searchStatus === SearchStatus.MODERATION_ERROR && recommendations.length === 0) {
+      setAccordionIndex(0)
+      errorToast({
+        title: 'Search Failed',
+        description: "Blocked due to policy restrictions",
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      })
+    }else if(searchStatus === SearchStatus.COMPLETE && recommendations.length === 0 ) {
       errorToast({
         title: 'No Results Found',
         description: "Try a different search",
@@ -81,8 +91,12 @@ function App() {
     try {
       await getRecommendationService().getRecommendationStream(description, onRecommendation)
         setSearchStatus(SearchStatus.COMPLETE)
-    } catch (error) {
+    } catch (error : any) {
+      if (error.message === "MODERATION") {
+        setSearchStatus(SearchStatus.MODERATION_ERROR)
+      } else {
         setSearchStatus(SearchStatus.ERROR)
+      }
     }
   }
 
