@@ -158,7 +158,7 @@ export class FakeRecommendationService implements BookRecommendationService {
     }
     async getReason(book: PossibleBook, lookingFor: string): Promise<string> {
         await new Promise(r => setTimeout(r, 2000));
-        return `${book.title} is a great book that I am sure you will love because of your interest in "${lookingFor}"`
+        return getFallbackReason(book.title)
     }
     
     async getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void> {
@@ -174,9 +174,13 @@ export class FakeRecommendationService implements BookRecommendationService {
     
 }
 
+export function getFallbackReason(bookTitle: string) {
+    const bookMainTitle = bookTitle.split(":")[0]
+    return `${bookMainTitle} is highly recommended by your fellow readers. We are sure you'll love it!`
+}
+
 export function getRecommendationService() {
     if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_REC_SERVICE === "true") {
-        console.log(process.env.NODE_ENV)
         return new ChatBookRecommendationService()
     } else {
         return new FakeRecommendationService()

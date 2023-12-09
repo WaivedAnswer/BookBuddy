@@ -1,6 +1,6 @@
-import {Box, Flex, SkeletonText, Text } from "@chakra-ui/react"
+import {Flex, SkeletonText, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { PossibleBook, getRecommendationService } from "../services/recommendations"
+import { PossibleBook, getFallbackReason, getRecommendationService } from "../services/recommendations"
 
 interface BookReasonParams {
     book: PossibleBook,
@@ -15,9 +15,8 @@ function BookReason( {book, currentSearch } : BookReasonParams) {
         const result = await getRecommendationService().getReason(book, currentSearch)
         setReason(previousReason => previousReason ? previousReason : result)
       } catch (error) {
-        setReason(`${book.title} is highly recommended by your fellow readers. We are sure you'll love it!`)
+        setReason(getFallbackReason(book.title))
       }
-      
     }
     loadReason()
   }, [book, currentSearch])

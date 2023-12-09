@@ -242,7 +242,6 @@ export function getFixedLink(bookTitle: string) {
 
 export function getLinkGenerationService() {
     if(process.env.NODE_ENV === 'production' || process.env.REACT_APP_REC_SERVICE === "true") {
-        console.log(process.env.NODE_ENV)
         return new AmazonBestSellerLinkGenerator()
     } else {
         return new FakeLinkGenerationService()
