@@ -1,6 +1,6 @@
 import { PossibleBook } from "../services/recommendations"
 import img from "../images/book-cover.png"
-import {AspectRatio, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Spinner, Text } from "@chakra-ui/react"
+import {AspectRatio, Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Spinner, Text, VStack } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
@@ -35,7 +35,11 @@ function BookResult( { result, currentSearch } : BookResultParams) {
       className="book-result" 
       width="100%">
       <CardHeader>
-        <Heading size={{base:"lg", sm:"md", lg:"lg"}}>{result.title}</Heading>
+        <VStack align="left">
+          <Heading size={{base:"lg", sm:"md", lg:"lg"}}>{result.title}</Heading>
+          <Heading fontWeight="normal" size={{base:"md", sm:"sm", lg:"md"}}>{`${result.author}`}</Heading>
+        </VStack>
+        
       </CardHeader>
       <CardBody>
         <Flex direction={{base: "column", sm: "row"}} gap={{base:4, md:8}}>
