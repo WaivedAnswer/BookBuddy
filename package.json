@@ -25,7 +25,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "s3": "aws s3 sync ./build s3://bookbuddy-pilot/${npm_config_dest} --profile my-dev-profile",
+    "cf-download": "aws cloudfront get-distribution-config --id E2L9KTGBVKA1D6 --profile my-dev-profile > /tmp/cf_dist_old.json",
+    "cf-update": "node ./cloudfront/cloudfront.js ${npm_config_dest}",
+    "cf-upload": "aws cloudfront update-distribution --id E2L9KTGBVKA1D6 --distribution-config file:///tmp/cf_dist_new.json --if-match $(</tmp/etag.txt) --profile my-dev-profile > /tmp/whatever.txt",
+    "cf-invalidate": "aws cloudfront create-invalidation --distribution-id E2L9KTGBVKA1D6 --paths '/*' --profile my-dev-profile",
+    "cloudfront": "npm run build && npm run s3 --dest=${npm_config_dest} && npm run cf-download && npm run cf-update --dest=${npm_config_dest} && npm run cf-upload && npm run cf-invalidate"
   },
   "eslintConfig": {
     "extends": [
