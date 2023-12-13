@@ -210,6 +210,7 @@ export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
                 },
                 body: JSON.stringify({
                     bookTitle: bookTitle,
+                    bookAuthor: bookAuthor
                 })
             })
             .then(response => {
