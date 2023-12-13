@@ -1,9 +1,10 @@
 interface LinkGenerationService {
-    generateLink(bookTitle: string, bookAuthor: string) : Promise<string>
+    generateLink(bookTitle: string, bookAuthor: string) : Promise<LinkResponseData>
 }
 
 interface LinkResponseData {
-    link: string
+    link: string,
+    image: string | null
 }
 
 export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
@@ -197,10 +198,10 @@ export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
         ["Four Thousand Weeks: Time Management for Mortals", "https://amzn.to/482nJWF"],
     ]);
 
-    async generateLink(bookTitle: string, bookAuthor: string): Promise<string> {
+    async generateLink(bookTitle: string, bookAuthor: string): Promise<LinkResponseData> {
         const newLink = this.bestSellers.get(bookTitle)
         if(newLink) {
-            return newLink
+            return {link: newLink, image: null}
         } else {
             return fetch("https://sc2slkrny7rmct6gtx7h5gwwt40lonrx.lambda-url.us-east-2.on.aws/", {
                 method: "POST",
@@ -221,19 +222,33 @@ export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
                 if(!responseData.link) {
                     throw new Error('Failed to retrieve link. Try again.')
                 }
-                return responseData.link
+                return responseData
             })
         }
     }
 
 }
-
 class FakeLinkGenerationService implements LinkGenerationService {
-    async generateLink(bookTitle: string, bookAuthor: string): Promise<string> {
+    async generateLink(bookTitle: string, bookAuthor: string): Promise<LinkResponseData> {
         await new Promise(r => setTimeout(r, 2000));
-        return getFixedLink(bookTitle)
+        return {link: getFixedLink(bookTitle), image: this.getImage()}
     }
 
+    getImage() {
+        const images = ["https://m.media-amazon.com/images/I/51Yf9AHpFGL._AC_UL320_.jpg", 
+        "https://m.media-amazon.com/images/I/91vnzZO5yPL._AC_UL320_.jpg", 
+        "https://m.media-amazon.com/images/I/91JSuY8aT-L._AC_UL320_.jpg", 
+        "https://m.media-amazon.com/images/I/71PcexlBwQL._AC_UL320_.jpg", 
+        null, 
+        null, 
+        "https://m.media-amazon.com/images/I/81zk7by9jXL._AC_UL640_FMwebp_QL65_.jpg", 
+        "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UL640_FMwebp_QL65_.jpg",
+        "https://m.media-amazon.com/images/I/91zJxacOUcL._AC_UL640_FMwebp_QL65_.jpg",
+        "https://m.media-amazon.com/images/I/61BRxtp9qtL._AC_UL640_FMwebp_QL65_.jpg"
+    ]
+        const imageIndex = Math.floor(Math.random() * images.length)
+        return images[imageIndex]
+    }
 }
 
 export function getFixedLink(bookTitle: string) {
