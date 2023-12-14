@@ -18,6 +18,7 @@ import {
   Heading, 
   Text,
   useToast } from '@chakra-ui/react';
+import SocialShareBar from './components/SocialShareBar';
 
 enum SearchStatus {
   INITIAL,
@@ -141,8 +142,8 @@ function App() {
         </AccordionItem>
       </Accordion>
       <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" justify="space-around" padding={4}>
-        <Text as="h1" color="white"></Text>
-        <Text size="lg" fontWeight="bold" color="white">Share on: </Text>
+        <Text color="white"></Text>
+        <SocialShareBar/>
       </Flex>
     </Flex>
   );
