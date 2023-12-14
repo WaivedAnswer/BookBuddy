@@ -101,12 +101,13 @@ function App() {
   }
 
   return (
-    <Flex className="App" direction="column" height="100vh">
+    <Flex className="App" direction="column" minHeight="100vh">
       <Flex as="header" className="App-header" direction="column" width="100%" bgColor="primary" align="center">
         <Heading as="h1" color="white">FindMyRead</Heading>
         <Text size="xs" color="white">Great Books. Just For You</Text>
       </Flex>
-      <Accordion className="App-body" h="100%" 
+      <Accordion flex="1"
+      className="App-body" 
       defaultIndex={0} 
       index={accordionIndex} 
       onChange={onAccordionChange} 
