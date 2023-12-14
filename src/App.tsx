@@ -140,9 +140,10 @@ function App() {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Box textAlign="center" margin={4}>
-        <Text size="xs" fontWeight="light" fontStyle="italic">* As an Amazon Associate I earn from qualifying purchases.</Text>
-      </Box>
+      <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" justify="space-around" padding={4}>
+        <Text as="h1" color="white"></Text>
+        <Text size="lg" fontWeight="bold" color="white">Share on: </Text>
+      </Flex>
     </Flex>
   );
 }

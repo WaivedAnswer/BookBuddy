@@ -1,7 +1,7 @@
 import { PossibleBook } from "../services/recommendations"
 import BookResult from "./BookResult"
 import LoadingIcon from "./LoadingIcon"
-import { ListItem, UnorderedList, VStack } from '@chakra-ui/react'
+import { Box, ListItem, UnorderedList, VStack,Text} from '@chakra-ui/react'
 
 interface BookResultListParams {
     results: PossibleBook[],
@@ -24,6 +24,9 @@ function BookResultList( { results, isSearching, currentSearch } : BookResultLis
                 )
             }
             {isSearching ? <LoadingIcon/> : ""}
+            <Box textAlign="center" width="100%">
+                <Text size="xs" fontWeight="light" fontStyle="italic">* As an Amazon Associate I earn from qualifying purchases *</Text>
+            </Box>
         </VStack>
         
     )
