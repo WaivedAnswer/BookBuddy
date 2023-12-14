@@ -14,7 +14,7 @@ import {
 
 function SocialShareBar( ) {
     return ( 
-    <HStack>
+    <HStack gap={{base: 1, md: 2}}>
         <Text size="lg" color="white">Share</Text>
         <EmailShareButton url="findmyread.com" 
         subject="Book Recommendations" 

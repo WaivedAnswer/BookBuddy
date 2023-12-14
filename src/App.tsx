@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './App.css';
 
@@ -14,10 +14,14 @@ import {
   AccordionPanel, 
   Box, 
   Container, 
+  Divider, 
   Flex, 
   Heading, 
+  Link as ChakraLink, 
   Text,
-  useToast } from '@chakra-ui/react';
+  useToast, 
+  Center} from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom'
 import SocialShareBar from './components/SocialShareBar';
 
 enum SearchStatus {
@@ -141,9 +145,18 @@ function App() {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" justify="space-around" padding={4}>
-        <Text color="white"></Text>
-        <SocialShareBar/>
+      <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
+        <Box flex="1">
+          <ChakraLink color="white" as={ReactRouterLink} to='/feedback'>
+            <Text fontSize="md" textAlign="center">Feedback?</Text>
+          </ChakraLink>
+        </Box>
+        <Box height="32px">
+          <Divider orientation="vertical"></Divider>
+        </Box>
+        <Center flex={{base: "2", md:"1"}}>
+          <SocialShareBar />
+        </Center>
       </Flex>
     </Flex>
   );
