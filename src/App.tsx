@@ -24,6 +24,7 @@ import {
 import { Link as ReactRouterLink } from 'react-router-dom'
 import SocialShareBar from './components/SocialShareBar';
 import SearchDemo from './components/SearchDemo';
+import React from 'react';
 
 enum SearchStatus {
   INITIAL,
@@ -32,6 +33,10 @@ enum SearchStatus {
   ERROR,
   MODERATION_ERROR
 }
+
+const MemoSearchDemo = React.memo(() => (
+  <SearchDemo/>
+));
 
 function App() {
   const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
@@ -112,7 +117,7 @@ function App() {
         <Heading as="h1" color="white">FindMyRead</Heading>
         <Text size="xs" color="white">Great Books. Just For You</Text>
       </Flex>
-      <SearchDemo/>
+      <MemoSearchDemo/>
       <Flex direction="column" flex="1" margin={{base:"0% 0%", md:"0% 5%", lg: "0% 10%"}} justify="flex-start">
         <Accordion flex="4"
         className="App-body" 
