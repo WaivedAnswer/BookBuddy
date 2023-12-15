@@ -41,42 +41,14 @@ function SearchArea({onSearch} : SearchAreaParams) {
     return (
     <VStack className="search-area" justify="center">
         <Container>
-            <HStack justify="center" >
-                <Heading fontSize="md" margin={2}>Description</Heading>
-                <Popover placement="bottom">
-                    <PopoverTrigger>
-                        <IconButton
-                            aria-label="Description Examples"
-                            icon={<InfoIcon />}
-                            isRound={true}
-                            size="sm"
-                            variant="outline"
-                        />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                    <PopoverArrow />
-    <PopoverCloseButton />
-    <PopoverHeader>Description Criteria</PopoverHeader>
-    <PopoverBody>
-                    <Text>You can make your search as simple or complex as you like. For example:</Text>
-                        <UnorderedList>
-                            <ListItem>I want great books on cooking</ListItem>
-                            <ListItem>I am looking for a gripping mystery novel with a strong female detective</ListItem>
-                            <ListItem>I am looking for a motivational book that blends self-help with practical career advice, like Atomic Habits</ListItem>
-                        </UnorderedList>
-    </PopoverBody>
-                        
-                        
-                    </PopoverContent>
-                </Popover>
-            </HStack>
             <Textarea
             ref = {searchTextRef}
             className="description-text"
             placeholder="Describe the book you are looking for"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            onKeyDown={handleKeyDown} />
+            onKeyDown={handleKeyDown} 
+            fontSize={{base: "md", sm:"lg", lg:"xl"}}/>
     </Container>
       <Button isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
         Search
