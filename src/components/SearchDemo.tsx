@@ -2,6 +2,27 @@ import { Card, chakra, Container, Flex } from '@chakra-ui/react';
 import { TypeAnimation } from 'react-type-animation';
  
 export default function SearchDemo() {
+    const demoPhrases = [
+        'I am looking for a good Christmas-themed bedtime story for my toddler',
+        'I am looking for a cozy romantic winter read',
+        'I am looking for a gripping mystery novel with a strong female detective',
+        'I am looking for the best classic fiction books to read on my holiday',
+        'I am looking for books to help me get started in gardening',
+        'I am looking for books to become a better programmer',
+    ]
+
+    const getSequence = () => {
+        const PAUSE_INTERVAL = 2000
+        const sequence = [];
+        const completionFunction = () => {}
+        for(const demoPhrase of demoPhrases) {
+            sequence.push(demoPhrase)
+            sequence.push(PAUSE_INTERVAL)
+        }
+        sequence.push(completionFunction)
+        return sequence
+    }
+
     const ChakraTypeAnimation = chakra(TypeAnimation, {cursor:true})
     return (
         <Flex direction="column" align="center">
@@ -13,15 +34,7 @@ export default function SearchDemo() {
                 variant="filled"
                 >
                 <ChakraTypeAnimation
-                    sequence={[
-                        'I am looking for great books on cooking',
-                        2000, //waits 2 seconds
-                        'I am looking for a gripping mystery novel with a strong female detective',
-                        2000, 
-                        'I am looking for a motivational book that blends self-help with practical career advice', 
-                        2000,
-                        () => {},
-                    ]}
+                    sequence={getSequence()}
                     wrapper="span"
                     repeat={Infinity}
                     deletionSpeed={70}
