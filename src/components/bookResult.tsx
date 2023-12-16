@@ -66,7 +66,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
         <HStack>
           <Text size="md" as="b">View on:</Text>
           {
-            link ? <Button as="a" href={link} target="_blank" rel="noreferrer" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
+            link ? <Button as="a" href={link} target="_blank" rel="sponsored nofollow noopener" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
             <Spinner/>
           }
         </HStack>
