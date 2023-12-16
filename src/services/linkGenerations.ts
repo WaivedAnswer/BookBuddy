@@ -58,7 +58,7 @@ class FakeLinkGenerationService implements LinkGenerationService {
 }
 
 export function getFixedLink(bookTitle: string) {
-   return "https://www.amazon.com/s?k=" + bookTitle.replaceAll(" ", "+") + "&tag=myread0b-20"
+   return "https://www.amazon.ca/s?k=" + bookTitle.replaceAll(" ", "+") + "&tag=myread0a-20"
 }
 
 export function getLinkGenerationService() {
