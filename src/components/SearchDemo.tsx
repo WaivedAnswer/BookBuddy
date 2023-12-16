@@ -12,7 +12,7 @@ export default function SearchDemo() {
     ]
 
     const getSequence = () => {
-        const PAUSE_INTERVAL = 2000
+        const PAUSE_INTERVAL = 3000
         const sequence = [];
         const completionFunction = () => {}
         for(const demoPhrase of demoPhrases) {
