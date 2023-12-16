@@ -1,7 +1,6 @@
 import {useState, useRef, useEffect } from 'react';
 
-import { Button, Container, HStack, Heading, IconButton, ListItem, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Textarea, Text, UnorderedList, VStack } from '@chakra-ui/react';
-import { InfoIcon } from '@chakra-ui/icons';
+import { Button, Container, Textarea, VStack } from '@chakra-ui/react';
 
 interface SearchAreaParams {
     onSearch : Function;
@@ -48,7 +47,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             onKeyDown={handleKeyDown} 
-            fontSize={{base: "md", sm:"lg", lg:"xl"}}/>
+            fontSize={{base: "md", sm:"lg"}}/>
     </Container>
       <Button isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
         Search
