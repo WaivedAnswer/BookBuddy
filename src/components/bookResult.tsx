@@ -46,7 +46,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
         
       </CardHeader>
       <CardBody>
-        <Flex direction={{base: "column", sm: "row"}} gap={{base:4, md:8}}>
+        <Flex direction={{base: "column", md: "row"}} gap={{base:4, md:8}}>
           <Skeleton isLoaded={link !== null}>
             <Image alt="book cover" 
               maxHeight="300px" 
