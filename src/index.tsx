@@ -12,18 +12,13 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import ErrorPage from './routes/errorPage';
-import FeedbackPage from './routes/FeedbackPage';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "feedback",
-    element: <FeedbackPage />,
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(

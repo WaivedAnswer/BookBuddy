@@ -17,11 +17,10 @@ import {
   Divider, 
   Flex, 
   Heading, 
-  Link as ChakraLink, 
   Text,
   useToast, 
-  Center} from '@chakra-ui/react';
-import { Link as ReactRouterLink } from 'react-router-dom'
+  Center,
+  Button} from '@chakra-ui/react';
 import SocialShareBar from './components/SocialShareBar';
 import SearchDemo from './components/SearchDemo';
 import React from 'react';
@@ -111,6 +110,7 @@ function App() {
     }
   }
 
+  const email = process.env.REACT_APP_FEEDBACK_EMAIL
   return (
     <Flex className="App" direction="column" minHeight="100vh">
       <Flex as="header" className="App-header" direction="column" width="100%" bgColor="primary" align="center">
@@ -155,14 +155,19 @@ function App() {
         </Accordion>
       </Flex>
       <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
-        {/* <Box flex="1">
-          <ChakraLink color="white" as={ReactRouterLink} to='/feedback'>
-            <Text fontSize="md" textAlign="center">Feedback?</Text>
-          </ChakraLink>
-        </Box>
+        <Center flex="1">
+          <Button as="a"
+          target="_blank" 
+          href={`mailto:${email}?subject=FindMyRead Feedback`}
+          colorScheme="whiteAlpha"
+          borderRadius="full" 
+          size={{base:"sm", md:"md"}}>
+            <Text fontSize={{base:"sm", sm:"md"}} textAlign="center" color="white">Feedback</Text>
+          </Button>
+        </Center>
         <Box height="32px">
           <Divider orientation="vertical"></Divider>
-        </Box> */}
+        </Box>
         <Center flex={{base: "2", md:"1"}}>
           <SocialShareBar />
         </Center>

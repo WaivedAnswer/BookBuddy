@@ -50,7 +50,8 @@ class FakeLinkGenerationService implements LinkGenerationService {
         "https://m.media-amazon.com/images/I/81zk7by9jXL._AC_UL640_FMwebp_QL65_.jpg", 
         "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UL640_FMwebp_QL65_.jpg",
         "https://m.media-amazon.com/images/I/91zJxacOUcL._AC_UL640_FMwebp_QL65_.jpg",
-        "https://m.media-amazon.com/images/I/61BRxtp9qtL._AC_UL640_FMwebp_QL65_.jpg"
+        "https://m.media-amazon.com/images/I/61BRxtp9qtL._AC_UL640_FMwebp_QL65_.jpg",
+        "https://m.media-amazon.com/images/I/81SrwYY-6-L._AC_UY218_.jpg"
     ]
         const imageIndex = Math.floor(Math.random() * images.length)
         return images[imageIndex]
