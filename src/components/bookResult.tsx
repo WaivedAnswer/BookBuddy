@@ -5,6 +5,7 @@ import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
 import { AddIcon } from "@chakra-ui/icons"
+import { getWishlistService } from "../services/wishlist"
 
 interface BookResultParams {
   result: PossibleBook,
@@ -63,7 +64,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
             <Flex>
               <HStack>
                 <Text fontWeight="bold" fontSize={{base: "md", sm: "lg"}}>Add To Wishlist</Text>
-                <IconButton aria-label={"favourite"} isRound><AddIcon/></IconButton>
+                <IconButton aria-label={"favourite"} isRound onClick={() => getWishlistService().addToWishlist(result)}><AddIcon/></IconButton>
               </HStack>
             </Flex>
           </Flex>
