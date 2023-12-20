@@ -1,9 +1,10 @@
 import { PossibleBook } from "../services/recommendations"
 import placeholderImage from "../images/book-cover-placeholder.png"
-import {Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spinner, Text, VStack } from "@chakra-ui/react"
+import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, IconButton, Image, Skeleton, Spacer, Spinner, Text, VStack } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
+import { AddIcon } from "@chakra-ui/icons"
 
 interface BookResultParams {
   result: PossibleBook,
@@ -56,9 +57,16 @@ function BookResult( { result, currentSearch } : BookResultParams) {
               objectFit="contain" 
               objectPosition="center top"/>
           </Skeleton>
-          <Box flex="1">
+          <Flex direction="column" flex="1">
             <BookReason book={result} currentSearch={currentSearch}/>
-          </Box>
+            <Spacer/>
+            <Flex>
+              <HStack>
+                <Text fontWeight="bold" fontSize={{base: "md", sm: "lg"}}>Add To Wishlist</Text>
+                <IconButton aria-label={"favourite"} isRound><AddIcon/></IconButton>
+              </HStack>
+            </Flex>
+          </Flex>
         </Flex>
       </CardBody>
       
@@ -69,7 +77,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
             link ? <Button as="a" href={link} target="_blank" rel="sponsored nofollow noopener" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
             <Spinner/>
           }
-        </HStack>
+        </HStack>    
       </CardFooter>
     </Card>
   )

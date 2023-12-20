@@ -113,7 +113,15 @@ function App() {
   const email = process.env.REACT_APP_FEEDBACK_EMAIL
   return (
     <Flex className="App" direction="column" minHeight="100vh">
-      <Flex as="header" className="App-header" direction="column" width="100%" bgColor="primary" align="center">
+      <Flex as="header" 
+      className="App-header" 
+      direction="column" 
+      width="100%" 
+      bgColor="primary" 
+      align="center"
+      top={-1}
+      position="sticky"
+      zIndex={1}>
         <Heading as="h1" color="white">FindMyRead</Heading>
         <Text size="xs" color="white">Great Books. Just For You</Text>
       </Flex>
