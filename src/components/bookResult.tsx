@@ -1,12 +1,10 @@
 import { PossibleBook } from "../services/recommendations"
 import placeholderImage from "../images/book-cover-placeholder.png"
-import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, IconButton, Image, Skeleton, Spacer, Spinner, Text, VStack } from "@chakra-ui/react"
+import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spacer, Spinner, Text, VStack } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
-import { AddIcon } from "@chakra-ui/icons"
-import { getWishlistService } from "../services/wishlist"
-import WishlistAction from "./WishlistAdd"
+import WishlistAction from "./WishlistAction"
 
 interface BookResultParams {
   result: PossibleBook,

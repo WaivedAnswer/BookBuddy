@@ -4,19 +4,29 @@ import { PossibleBook } from '../services/recommendations';
 
 interface WishlistContextParams {
     wishlist : PossibleBook[];
-    handleAddToWishlist : (book: PossibleBook) => void;
-    handleRemoveFromWishlist : (book: PossibleBook) => void;
+    wishlistError : null | WishlistError;
+    handleAddToWishlist : (book: PossibleBook) => Promise<boolean>;
+    handleRemoveFromWishlist : (book: PossibleBook) => Promise<boolean>;
 }
 const WishlistContext = createContext<null | WishlistContextParams> (null);
 
+enum WishlistError {
+  FAILED_LOAD
+}
+
 export const WishlistProvider = ({ children } : any) => {
   const [wishlist, setWishlist] = useState<PossibleBook[]>([]);
+  const [wishlistError, setWishlistError] = useState<null | WishlistError>(null)
 
   useEffect(() => {
     const fetchWishlist = async () => {
       const wishlistService = getWishlistService()
-      const initialWishlist = await wishlistService.getWishlist();
-      setWishlist(initialWishlist);
+      try {
+        const initialWishlist = await wishlistService.getWishlist();
+        setWishlist(initialWishlist);
+      } catch (error) {
+        setWishlistError(WishlistError.FAILED_LOAD)
+      }
     };
 
     fetchWishlist();
@@ -24,19 +34,29 @@ export const WishlistProvider = ({ children } : any) => {
 
   const handleAddToWishlist = async (book: PossibleBook) => {
     const wishlistService = getWishlistService()
-    const updatedWishlist = await wishlistService.addToWishlist(book);
-    setWishlist(updatedWishlist);
+    try {
+      const updatedWishlist = await wishlistService.addToWishlist(book);
+      setWishlist(updatedWishlist);
+      return true
+    } catch (error) {
+      return false
+    }
   };
 
   const handleRemoveFromWishlist = async (book: PossibleBook) => {
     const wishlistService = getWishlistService()
-    const updatedWishlist = await wishlistService.removeFromWishlist(book);
-    setWishlist(updatedWishlist);
+    try {
+      const updatedWishlist = await wishlistService.removeFromWishlist(book);
+      setWishlist(updatedWishlist);
+      return true
+    } catch (error) {
+      return false
+    }
   };
 
 
   return (
-    <WishlistContext.Provider value={{ wishlist, handleAddToWishlist, handleRemoveFromWishlist }}>
+    <WishlistContext.Provider value={{ wishlist, handleAddToWishlist, handleRemoveFromWishlist, wishlistError }}>
       {children}
     </WishlistContext.Provider>
   );

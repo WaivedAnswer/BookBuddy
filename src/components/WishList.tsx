@@ -1,12 +1,13 @@
 import { PossibleBook } from "../services/recommendations"
 import BookResult from "./BookResult"
-import { ListItem, UnorderedList, VStack} from '@chakra-ui/react'
+import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Spacer} from '@chakra-ui/react'
 import { useWishlist } from "../context/WishlistContext"
 
 export default function WishList() {
-    const { wishlist} = useWishlist();
+    const { wishlist, wishlistError} = useWishlist();
     return ( 
-        <VStack display="flex" justifyContent="center" width="100%">
+        wishlistError === null ?
+        (<VStack display="flex" justifyContent="center" width="100%">
             {
                 wishlist.length === 0 ? "" :
                 (
@@ -19,7 +20,23 @@ export default function WishList() {
                     </UnorderedList>
                 )
             }
-        </VStack>
+        </VStack>) :
+        (
+            <Flex direction="column" flex="1" justify="space-around">
+                <Alert status='error'
+                  alignItems='center'
+                  justifyContent='center'
+                  textAlign='center'
+                  height='200px'
+                  flexDirection='column'
+                  >
+                    <AlertIcon boxSize='40px'/>
+                    <AlertTitle mt={2}>Failed to Load Wishlist</AlertTitle>
+                    <AlertDescription>Try again later</AlertDescription>
+                </Alert>
+            </Flex>
+        )
+
         
     )
 }
