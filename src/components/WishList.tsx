@@ -1,15 +1,21 @@
 import { PossibleBook } from "../services/recommendations"
 import BookResult from "./BookResult"
-import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Spacer} from '@chakra-ui/react'
+import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Spacer, Box, Center, Text} from '@chakra-ui/react'
 import { useWishlist } from "../context/WishlistContext"
 
 export default function WishList() {
     const { wishlist, wishlistError} = useWishlist();
     return ( 
         wishlistError === null ?
-        (<VStack display="flex" justifyContent="center" width="100%">
+        (<VStack display="flex" height="100%" justifyContent="center" width="100%">
             {
-                wishlist.length === 0 ? "" :
+                wishlist.length === 0 ? <Box flex="1">
+                    <Center margin={4}>
+                        <Text fontSize="xl" color="gray.500">Wishlist is Empty</Text>
+                    </Center>
+                    </Box>
+                    
+                :
                 (
                     <UnorderedList spacing={8} width="100%">
                     { wishlist.map((book : PossibleBook) => (
