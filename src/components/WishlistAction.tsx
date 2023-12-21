@@ -1,7 +1,8 @@
-import { HStack, IconButton, Text, useToast } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, HStack, IconButton, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
+import React, { RefObject } from "react";
 
 
 interface WishlistActionParams {
@@ -9,13 +10,14 @@ interface WishlistActionParams {
 }
 export default function WishlistAction({item}: WishlistActionParams) {
     const { wishlist, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = React.useRef(null)
     const errorToast = useToast()
 
     const inList = wishlist.find(wishlistBook => item.title === wishlistBook.title) !== undefined
 
-    const handleClick = async (inList : boolean) => {
-        if(inList) {
-            const success = await handleRemoveFromWishlist(item)
+    const handleDelete = async () => {
+        const success = await handleRemoveFromWishlist(item)
             if(!success) {
                 errorToast({
                     title: 'Remove Failed',
@@ -25,6 +27,11 @@ export default function WishlistAction({item}: WishlistActionParams) {
                     isClosable: true,
                 })
             }
+    }
+
+    const handleClick = async (inList : boolean) => {
+        if(inList) {
+            onOpen()
         } else {
             const success = await handleAddToWishlist(item)
             if(!success) {
@@ -41,11 +48,40 @@ export default function WishlistAction({item}: WishlistActionParams) {
 
     }
     return (
-    <HStack>
-      <Text fontWeight="bold" fontSize={{ base: "md", sm: "lg" }}>{inList ? "Remove From Wishlist" : "Add To Wishlist"}</Text>
-      <IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
-        { inList ? <MinusIcon/> : <AddIcon /> }
-        </IconButton>
-    </HStack>
+        <>
+        <HStack>
+            <Text fontWeight="bold" fontSize={{ base: "md", sm: "lg" }}>{inList ? "Remove From Wishlist" : "Add To Wishlist"}</Text>
+            <IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
+                { inList ? <MinusIcon/> : <AddIcon /> }
+                </IconButton>
+        </HStack>
+        <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Remove From Wishlist
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={handleDelete} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+        </>
+    
     )
   }
