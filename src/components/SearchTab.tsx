@@ -18,9 +18,6 @@ import {
 import SearchDemo from './SearchDemo';
 import React from 'react';
 
-interface SearchTabParams {
-
-}
 
 enum SearchStatus {
     INITIAL,
@@ -34,7 +31,7 @@ const MemoSearchDemo = React.memo(() => (
     <SearchDemo/>
   ));
 
-export default function SearchTab({} : SearchTabParams) {
+export default function SearchTab() {
     const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
     const [currentSearch, setCurrentSearch] = useState<string>("")
     const [searchStatus, setSearchStatus] = useState<SearchStatus>(SearchStatus.INITIAL)

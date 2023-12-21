@@ -1,6 +1,4 @@
 import {Flex, SkeletonText, Text } from "@chakra-ui/react"
-import { useEffect } from "react"
-import { PossibleBook, getFallbackReason, getRecommendationService } from "../services/recommendations"
 
 interface BookReasonParams {
     reason: string | null,

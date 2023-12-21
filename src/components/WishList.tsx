@@ -1,6 +1,4 @@
-import { PossibleBook } from "../services/recommendations"
-import BookResult from "./BookResult"
-import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Spacer, Box, Center, Text} from '@chakra-ui/react'
+import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Box, Center, Text} from '@chakra-ui/react'
 import { useWishlist } from "../context/WishlistContext"
 import BookDisplay from "./BookDisplay";
 import { WishlistItem } from "../services/wishlist";

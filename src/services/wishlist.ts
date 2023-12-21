@@ -1,4 +1,3 @@
-import { PossibleBook } from "./recommendations"
 
 export interface WishlistItem {
     title: string;

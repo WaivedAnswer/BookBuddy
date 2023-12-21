@@ -1,11 +1,10 @@
-import { PossibleBook, getFallbackReason } from "../services/recommendations"
+import { getFallbackReason } from "../services/recommendations"
 import placeholderImage from "../images/book-cover-placeholder.png"
 import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spacer, Spinner, Text, VStack } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
 import WishlistAction from "./WishlistAction"
-import { WishlistItem } from "../services/wishlist"
 
 interface BookDisplayParams {
     title: string,
