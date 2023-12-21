@@ -2,6 +2,8 @@ import { PossibleBook } from "../services/recommendations"
 import BookResult from "./BookResult"
 import { ListItem, UnorderedList, VStack, Alert, AlertIcon, AlertTitle, AlertDescription, Flex, Spacer, Box, Center, Text} from '@chakra-ui/react'
 import { useWishlist } from "../context/WishlistContext"
+import BookDisplay from "./BookDisplay";
+import { WishlistItem } from "../services/wishlist";
 
 export default function WishList() {
     const { wishlist, wishlistError} = useWishlist();
@@ -18,9 +20,9 @@ export default function WishList() {
                 :
                 (
                     <UnorderedList spacing={8} width="100%">
-                    { wishlist.map((book : PossibleBook) => (
-                    <ListItem key={book.title} display="flex">
-                        <BookResult result={book} currentSearch={""} /> 
+                    { wishlist.map((wishlistItem : WishlistItem) => (
+                    <ListItem key={wishlistItem.title} display="flex">
+                        <BookDisplay title={wishlistItem.title}  author={wishlistItem.author} reason={wishlistItem.reason}/> 
                     </ListItem>
                     ))}
                     </UnorderedList>

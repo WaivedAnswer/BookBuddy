@@ -1,25 +1,12 @@
 import {Flex, SkeletonText, Text } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { PossibleBook, getFallbackReason, getRecommendationService } from "../services/recommendations"
 
 interface BookReasonParams {
-    book: PossibleBook,
-    currentSearch: string,
+    reason: string | null,
 }
 
-function BookReason( {book, currentSearch } : BookReasonParams) {
-  const [reason, setReason] = useState<string | null>(null)
-  useEffect(() => {
-    async function loadReason() {
-      try {
-        const result = await getRecommendationService().getReason(book, currentSearch)
-        setReason(previousReason => previousReason ? previousReason : result)
-      } catch (error) {
-        setReason(getFallbackReason(book.title))
-      }
-    }
-    loadReason()
-  }, [book, currentSearch])
+function BookReason( {reason } : BookReasonParams) {
   return ( 
 
       <Flex direction="column" justify="center">

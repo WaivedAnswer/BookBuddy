@@ -1,12 +1,11 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { getWishlistService } from '../services/wishlist';
-import { PossibleBook } from '../services/recommendations';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { WishlistItem, getWishlistService } from '../services/wishlist';
 
 interface WishlistContextParams {
-    wishlist : PossibleBook[];
+    wishlist : WishlistItem[];
     wishlistError : null | WishlistError;
-    handleAddToWishlist : (book: PossibleBook) => Promise<boolean>;
-    handleRemoveFromWishlist : (book: PossibleBook) => Promise<boolean>;
+    handleAddToWishlist : (book: WishlistItem) => Promise<boolean>;
+    handleRemoveFromWishlist : (book: WishlistItem) => Promise<boolean>;
 }
 const WishlistContext = createContext<null | WishlistContextParams> (null);
 
@@ -15,7 +14,7 @@ enum WishlistError {
 }
 
 export const WishlistProvider = ({ children } : any) => {
-  const [wishlist, setWishlist] = useState<PossibleBook[]>([]);
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [wishlistError, setWishlistError] = useState<null | WishlistError>(null)
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export const WishlistProvider = ({ children } : any) => {
     fetchWishlist();
   }, []);
 
-  const handleAddToWishlist = async (book: PossibleBook) => {
+  const handleAddToWishlist = async (book: WishlistItem) => {
     const wishlistService = getWishlistService()
     try {
       const updatedWishlist = await wishlistService.addToWishlist(book);
@@ -43,7 +42,7 @@ export const WishlistProvider = ({ children } : any) => {
     }
   };
 
-  const handleRemoveFromWishlist = async (book: PossibleBook) => {
+  const handleRemoveFromWishlist = async (book: WishlistItem) => {
     const wishlistService = getWishlistService()
     try {
       const updatedWishlist = await wishlistService.removeFromWishlist(book);

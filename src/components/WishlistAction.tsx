@@ -1,21 +1,21 @@
 import { HStack, IconButton, Text, useToast } from "@chakra-ui/react";
-import { PossibleBook } from "../services/recommendations";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
+import { WishlistItem } from "../services/wishlist";
 
 
 interface WishlistActionParams {
-    book: PossibleBook
+    item: WishlistItem
 }
-export default function WishlistAction({book}: WishlistActionParams) {
+export default function WishlistAction({item}: WishlistActionParams) {
     const { wishlist, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
     const errorToast = useToast()
 
-    const inList = wishlist.find(wishlistBook => book.title === wishlistBook.title) !== undefined
+    const inList = wishlist.find(wishlistBook => item.title === wishlistBook.title) !== undefined
 
     const handleClick = async (inList : boolean) => {
         if(inList) {
-            const success = await handleRemoveFromWishlist(book)
+            const success = await handleRemoveFromWishlist(item)
             if(!success) {
                 errorToast({
                     title: 'Remove Failed',
@@ -26,7 +26,7 @@ export default function WishlistAction({book}: WishlistActionParams) {
                 })
             }
         } else {
-            const success = await handleAddToWishlist(book)
+            const success = await handleAddToWishlist(item)
             if(!success) {
                 errorToast({
                     title: 'Add Failed',
