@@ -17,6 +17,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
     const inList = wishlist.find(wishlistBook => item.title === wishlistBook.title) !== undefined
 
     const handleDelete = async () => {
+        onClose()
         const success = await handleRemoveFromWishlist(item)
             if(!success) {
                 errorToast({
@@ -75,7 +76,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
                 Cancel
               </Button>
               <Button colorScheme='red' onClick={handleDelete} ml={3}>
-                Delete
+                Remove
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
