@@ -17,9 +17,15 @@ import { useEffect, useRef, useState } from 'react';
 import WishList from './components/WishList';
 import { WishlistProvider } from './context/WishlistContext';
 import WishlistTabTitle from './components/WishlistTabTitle';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useNavigate } from 'react-router-dom';
+import MainApp from './components/MainApp';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
+  const {signOut, user} = useAuthenticator((context) => [context.user])
+
+  const navigate = useNavigate()
   const headerRef = useRef<any>(null)
   useEffect(() => {
     if(headerRef.current) {
@@ -29,9 +35,16 @@ function App() {
 
   }, [])
 
+  const onLogin = () => {
+    navigate("/login")
+  }
+
+  const onLogout = async () => {
+    signOut()
+  }
+
   const email = process.env.REACT_APP_FEEDBACK_EMAIL
   return (
-    <WishlistProvider>
       <Flex className="App" direction="column" minHeight="100vh">
         <Flex as="header" 
         ref={headerRef}
@@ -45,17 +58,9 @@ function App() {
         zIndex={1}>
           <Heading as="h1" color="white">FindMyRead</Heading>
           <Text size="xs" color="white">Great Books. Just For You</Text>
+          {user ? <Button onClick={onLogout} >Logout</Button> : <Button onClick={onLogin} >Login</Button>}
         </Flex>
-        <Tabs flex="1" variant="enclosed-colored" align="start" size="md">
-          <TabList position="sticky" top={{base: headerOffset - 2, md: headerOffset}} zIndex={1} bgColor="gray.200">
-              <Tab><Text size="md">Search</Text></Tab>
-              <Tab><WishlistTabTitle/></Tab>
-            </TabList>
-          <TabPanels>
-            <TabPanel><SearchTab/></TabPanel>
-            <TabPanel><WishList/></TabPanel>
-          </TabPanels>
-        </Tabs>
+        {user ? <MainApp headerOffset={headerOffset}/> : <SearchTab/>}
         <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
           <Center flex="1">
             <Button as="a"
@@ -75,7 +80,6 @@ function App() {
           </Center>
         </Flex>
       </Flex>
-    </WishlistProvider>
   );
 }
 

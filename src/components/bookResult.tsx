@@ -3,6 +3,7 @@ import { PossibleBook,
   getRecommendationService } from "../services/recommendations"
 import { useEffect, useState } from "react"
 import BookDisplay from "./BookDisplay"
+import { useAuthenticator } from "@aws-amplify/ui-react"
 
 interface BookResultParams {
   result: PossibleBook,

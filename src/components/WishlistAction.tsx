@@ -3,6 +3,7 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
 import React, { RefObject } from "react";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 
 interface WishlistActionParams {
@@ -13,6 +14,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
     const errorToast = useToast()
+
 
     const inList = wishlist.find(wishlistBook => item.title === wishlistBook.title) !== undefined
 

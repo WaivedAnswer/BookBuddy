@@ -5,6 +5,7 @@ import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
 import WishlistAction from "./WishlistAction"
+import { useAuthenticator } from "@aws-amplify/ui-react"
 
 interface BookDisplayParams {
     title: string,
@@ -15,6 +16,7 @@ interface BookDisplayParams {
 export default function BookDisplay({title, author, reason} : BookDisplayParams) {
     const [link, setLink] = useState<string | null>(null)
     const [image, setImage] = useState<string >("")
+    const {authStatus } = useAuthenticator( (context) => [context.authStatus])
 
     useEffect(() => {
         async function generateLink() {
@@ -62,7 +64,7 @@ export default function BookDisplay({title, author, reason} : BookDisplayParams)
             <BookReason reason={reason}/>
             <Spacer />
             <Flex>
-              <WishlistAction item={{title, author, reason: reason ? reason : getFallbackReason(title)}}/>
+              {authStatus === 'authenticated' ? <WishlistAction item={{title, author, reason: reason ? reason : getFallbackReason(title)}}/> : ""}
             </Flex>
           </Flex>
         </Flex>
