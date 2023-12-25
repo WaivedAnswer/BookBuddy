@@ -5,7 +5,7 @@ interface WishlistContextParams {
     wishlist : WishlistItem[];
     wishlistError : null | WishlistError;
     handleAddToWishlist : (book: WishlistItem) => Promise<boolean>;
-    handleRemoveFromWishlist : (book: WishlistItem) => Promise<boolean>;
+    handleRemoveFromWishlist : (itemId: string) => Promise<boolean>;
 }
 const WishlistContext = createContext<null | WishlistContextParams> (null);
 
@@ -43,11 +43,11 @@ export const WishlistProvider = ({ children } : any) => {
     }
   };
 
-  const handleRemoveFromWishlist = async (book: WishlistItem) => {
+  const handleRemoveFromWishlist = async (itemId: string) => {
     const wishlistService = getWishlistService()
     try {
-      await wishlistService.removeFromWishlist(book);
-      setWishlist(wishlist => wishlist.filter( item => item.itemId !== book.itemId));
+      await wishlistService.removeFromWishlist(itemId);
+      setWishlist(wishlist => wishlist.filter( item => item.itemId !== itemId));
       return true
     } catch (error) {
       return false

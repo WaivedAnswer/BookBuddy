@@ -10,7 +10,7 @@ export interface WishlistItem {
 export interface WishlistService {
     addToWishlist(book: WishlistItem): Promise<WishlistItem>
     getWishlist(): Promise<WishlistItem[]>
-    removeFromWishlist(book: WishlistItem): Promise<void>
+    removeFromWishlist(itemId: string): Promise<void>
 }
 
 class RealWishlistService implements WishlistService {
@@ -70,13 +70,13 @@ class RealWishlistService implements WishlistService {
             return responseData.items
         })
     }
-    async removeFromWishlist(book: WishlistItem): Promise<void> {
+    async removeFromWishlist(itemId: string): Promise<void> {
         const session = await fetchAuthSession()
         const token = session.tokens?.idToken?.toString();
-        if(!book.itemId) {
+        if(!itemId) {
             throw new Error("Wishlist item has not been assigned an id")
         }
-        const url = `https://brszebkvlb.execute-api.us-east-2.amazonaws.com/beta/wishlist/${book.itemId}`
+        const url = `https://brszebkvlb.execute-api.us-east-2.amazonaws.com/beta/wishlist/${itemId}`
         return fetch(url, {
             method: "DELETE",
             headers: {
@@ -113,9 +113,9 @@ class FakeWishlistService implements WishlistService {
         return book
     }
 
-    async removeFromWishlist(book: WishlistItem): Promise<void> {
+    async removeFromWishlist(itemId: string): Promise<void> {
         let wishlist = await this.getWishlist()
-        const newList =  wishlist.filter(wishlistBook => wishlistBook.itemId !== book.itemId)
+        const newList =  wishlist.filter(wishlistBook => wishlistBook.itemId !== itemId)
         localStorage.setItem(this.WISHLIST_KEY, JSON.stringify(newList));
     }
 }

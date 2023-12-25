@@ -2,24 +2,32 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 
 interface WishlistActionParams {
     item: WishlistItem
 }
+
 export default function WishlistAction({item}: WishlistActionParams) {
     const { wishlist, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [ wishlistItem, setWishlistItem] = useState<WishlistItem | undefined >()
     const cancelRef = React.useRef(null)
     const errorToast = useToast()
+    useEffect(() => { 
+        const matchingItem = wishlist.find(wishlistBook => item.title === wishlistBook.title)
+        setWishlistItem(matchingItem)
+    }, [item, wishlist])
 
-
-    const inList = wishlist.find(wishlistBook => item.title === wishlistBook.title) !== undefined
+    const inList = wishlistItem !== undefined
 
     const handleDelete = async () => {
         onClose()
-        const success = await handleRemoveFromWishlist(item)
+        if(!wishlistItem?.itemId) {
+            throw new Error("Item not in wishlist")
+        }
+        const success = await handleRemoveFromWishlist(wishlistItem.itemId)
             if(!success) {
                 errorToast({
                     title: 'Remove Failed',
@@ -45,7 +53,6 @@ export default function WishlistAction({item}: WishlistActionParams) {
                     isClosable: true,
                 })
             }
-
         }
 
     }
