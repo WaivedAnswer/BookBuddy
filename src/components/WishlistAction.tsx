@@ -2,8 +2,7 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
-import React, { RefObject } from "react";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import React from "react";
 
 
 interface WishlistActionParams {
@@ -52,7 +51,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
     }
     return (
         <>
-        <HStack>
+        <HStack style={inList ? {display:"none"}  : {} }>
             <Text fontWeight="bold" fontSize={{ base: "md", sm: "lg" }}>{inList ? "Remove From Wishlist" : "Add To Wishlist"}</Text>
             <IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
                 { inList ? <MinusIcon/> : <AddIcon /> }

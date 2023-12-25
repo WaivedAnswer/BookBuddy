@@ -24,6 +24,7 @@ export const WishlistProvider = ({ children } : any) => {
         const initialWishlist = await wishlistService.getWishlist();
         setWishlist(initialWishlist);
       } catch (error) {
+        console.error("Failed to load wishlist", error)
         setWishlistError(WishlistError.FAILED_LOAD)
       }
     };
@@ -34,8 +35,8 @@ export const WishlistProvider = ({ children } : any) => {
   const handleAddToWishlist = async (book: WishlistItem) => {
     const wishlistService = getWishlistService()
     try {
-      const updatedWishlist = await wishlistService.addToWishlist(book);
-      setWishlist(updatedWishlist);
+      const newItem = await wishlistService.addToWishlist(book);
+      setWishlist(wishlist => wishlist.concat(newItem));
       return true
     } catch (error) {
       return false
