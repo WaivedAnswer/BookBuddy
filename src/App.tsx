@@ -6,26 +6,19 @@ import {
   Text,
   Center,
   Button,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel} from '@chakra-ui/react';
+  VStack} from '@chakra-ui/react';
 import SocialShareBar from './components/SocialShareBar';
 import SearchTab from './components/SearchTab';
 import { useEffect, useRef, useState } from 'react';
-import WishList from './components/WishList';
-import { WishlistProvider } from './context/WishlistContext';
-import WishlistTabTitle from './components/WishlistTabTitle';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 import MainApp from './components/MainApp';
+import LoginOrSignup from './components/LoginOrSignup';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
-  const {signOut, user} = useAuthenticator((context) => [context.user])
+  const {user} = useAuthenticator((context) => [context.user])
 
-  const navigate = useNavigate()
   const headerRef = useRef<any>(null)
   useEffect(() => {
     if(headerRef.current) {
@@ -35,13 +28,7 @@ function App() {
 
   }, [])
 
-  const onLogin = () => {
-    navigate("/login")
-  }
 
-  const onLogout = async () => {
-    signOut()
-  }
 
   const email = process.env.REACT_APP_FEEDBACK_EMAIL
   return (
@@ -49,16 +36,18 @@ function App() {
         <Flex as="header" 
         ref={headerRef}
         className="App-header" 
-        direction="column" 
+        direction="row" 
         width="100%" 
         bgColor="primary" 
-        align="center"
+        justify="space-between"
         top={{base: "-1px", md: 0}}
         position="sticky"
         zIndex={1}>
-          <Heading as="h1" color="white">FindMyRead</Heading>
-          <Text size="xs" color="white">Great Books. Just For You</Text>
-          {user ? <Button onClick={onLogout} >Logout</Button> : <Button onClick={onLogin} >Login</Button>}
+          <VStack gap={0} ml={4}>
+            <Heading as="h1" color="white">FindMyRead</Heading>
+            <Text size="xs" color="white">Great Books. Just For You</Text>
+          </VStack>
+          <LoginOrSignup/>
         </Flex>
         {user ? <MainApp headerOffset={headerOffset}/> : <SearchTab/>}
         <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
