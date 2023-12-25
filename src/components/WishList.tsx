@@ -20,7 +20,7 @@ export default function WishList() {
                     <UnorderedList spacing={8} width="100%">
                     { wishlist.map((wishlistItem : WishlistItem) => (
                     <ListItem key={wishlistItem.title} display="flex">
-                        <BookDisplay title={wishlistItem.title}  author={wishlistItem.author} reason={wishlistItem.reason}/> 
+                        <BookDisplay title={wishlistItem.title}  author={wishlistItem.author} reason={wishlistItem.reason} itemId={wishlistItem.itemId}/> 
                     </ListItem>
                     ))}
                     </UnorderedList>

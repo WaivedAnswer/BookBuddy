@@ -46,8 +46,8 @@ export const WishlistProvider = ({ children } : any) => {
   const handleRemoveFromWishlist = async (book: WishlistItem) => {
     const wishlistService = getWishlistService()
     try {
-      const updatedWishlist = await wishlistService.removeFromWishlist(book);
-      setWishlist(updatedWishlist);
+      await wishlistService.removeFromWishlist(book);
+      setWishlist(wishlist => wishlist.filter( item => item.itemId !== book.itemId));
       return true
     } catch (error) {
       return false

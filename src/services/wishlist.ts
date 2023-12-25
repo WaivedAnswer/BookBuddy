@@ -5,11 +5,12 @@ export interface WishlistItem {
     title: string;
     author: string;
     reason: string;
+    itemId?: string
 }
 export interface WishlistService {
     addToWishlist(book: WishlistItem): Promise<WishlistItem>
     getWishlist(): Promise<WishlistItem[]>
-    removeFromWishlist(book: WishlistItem): Promise<WishlistItem[]>
+    removeFromWishlist(book: WishlistItem): Promise<void>
 }
 
 class RealWishlistService implements WishlistService {
@@ -69,8 +70,31 @@ class RealWishlistService implements WishlistService {
             return responseData.items
         })
     }
-    async removeFromWishlist(book: WishlistItem): Promise<WishlistItem[]> {
-        throw new Error('Method not implemented.');
+    async removeFromWishlist(book: WishlistItem): Promise<void> {
+        const session = await fetchAuthSession()
+        const token = session.tokens?.idToken?.toString();
+        if(!book.itemId) {
+            throw new Error("Wishlist item has not been assigned an id")
+        }
+        const url = `https://brszebkvlb.execute-api.us-east-2.amazonaws.com/beta/wishlist/${book.itemId}`
+        return fetch(url, {
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json()
+        })
+        .then((responseData : any) => {
+            if(!responseData.success) {
+                throw new Error("Failed to remove item")
+            }
+        })
     } 
 
 }
@@ -89,11 +113,10 @@ class FakeWishlistService implements WishlistService {
         return book
     }
 
-    async removeFromWishlist(book: WishlistItem): Promise<WishlistItem[]> {
+    async removeFromWishlist(book: WishlistItem): Promise<void> {
         let wishlist = await this.getWishlist()
-        const newList =  wishlist.filter(wishlistBook => wishlistBook.title !== book.title)
+        const newList =  wishlist.filter(wishlistBook => wishlistBook.itemId !== book.itemId)
         localStorage.setItem(this.WISHLIST_KEY, JSON.stringify(newList));
-        return newList
     }
 }
 

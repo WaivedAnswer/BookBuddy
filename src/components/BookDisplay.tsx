@@ -11,9 +11,10 @@ interface BookDisplayParams {
     title: string,
     author: string,
     reason: string | null
+    itemId?: string
   }
 
-export default function BookDisplay({title, author, reason} : BookDisplayParams) {
+export default function BookDisplay({title, author, reason, itemId} : BookDisplayParams) {
     const [link, setLink] = useState<string | null>(null)
     const [image, setImage] = useState<string >("")
     const {authStatus } = useAuthenticator( (context) => [context.authStatus])
@@ -64,7 +65,7 @@ export default function BookDisplay({title, author, reason} : BookDisplayParams)
             <BookReason reason={reason}/>
             <Spacer />
             <Flex>
-              {authStatus === 'authenticated' ? <WishlistAction item={{title, author, reason: reason ? reason : getFallbackReason(title)}}/> : ""}
+              {authStatus === 'authenticated' ? <WishlistAction item={{title, author, itemId, reason: reason ? reason : getFallbackReason(title)}}/> : ""}
             </Flex>
           </Flex>
         </Flex>

@@ -51,7 +51,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
     }
     return (
         <>
-        <HStack style={inList ? {display:"none"}  : {} }>
+        <HStack >
             <Text fontWeight="bold" fontSize={{ base: "md", sm: "lg" }}>{inList ? "Remove From Wishlist" : "Add To Wishlist"}</Text>
             <IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
                 { inList ? <MinusIcon/> : <AddIcon /> }
