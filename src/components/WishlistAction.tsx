@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, HStack, IconButton, Text, useDisclosure, useToast } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, HStack, IconButton, Spinner, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
@@ -13,6 +13,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
     const { wishlist, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [ wishlistItem, setWishlistItem] = useState<WishlistItem | undefined >()
+    const [ inProgress, setInProgress] = useState<boolean>(false)
     const cancelRef = React.useRef(null)
     const errorToast = useToast()
     useEffect(() => { 
@@ -23,11 +24,13 @@ export default function WishlistAction({item}: WishlistActionParams) {
     const inList = wishlistItem !== undefined
 
     const handleDelete = async () => {
-        onClose()
-        if(!wishlistItem?.itemId) {
-            throw new Error("Item not in wishlist")
-        }
-        const success = await handleRemoveFromWishlist(wishlistItem.itemId)
+        try {
+            setInProgress(true)
+            onClose()
+            if(!wishlistItem?.itemId) {
+                throw new Error("Item not in wishlist")
+            }
+            const success = await handleRemoveFromWishlist(wishlistItem.itemId)
             if(!success) {
                 errorToast({
                     title: 'Remove Failed',
@@ -37,21 +40,33 @@ export default function WishlistAction({item}: WishlistActionParams) {
                     isClosable: true,
                 })
             }
+        } catch (error) {
+            
+        } finally {
+            setInProgress(false)
+        }
     }
 
     const handleClick = async (inList : boolean) => {
         if(inList) {
             onOpen()
         } else {
-            const success = await handleAddToWishlist(item)
-            if(!success) {
-                errorToast({
-                    title: 'Add Failed',
-                    description: "Try again in a few minutes",
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                })
+            try {
+                setInProgress(true)
+                const success = await handleAddToWishlist(item)
+                if(!success) {
+                    errorToast({
+                        title: 'Add Failed',
+                        description: "Try again in a few minutes",
+                        status: 'error',
+                        duration: 9000,
+                        isClosable: true,
+                    })
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setInProgress(false)
             }
         }
 
@@ -60,9 +75,10 @@ export default function WishlistAction({item}: WishlistActionParams) {
         <>
         <HStack >
             <Text fontWeight="bold" fontSize={{ base: "md", sm: "lg" }}>{inList ? "Remove From Wishlist" : "Add To Wishlist"}</Text>
-            <IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
+            {inProgress ? <Spinner/>  : (<IconButton aria-label={"favourite"} isRound onClick={() => handleClick(inList)}>
                 { inList ? <MinusIcon/> : <AddIcon /> }
-                </IconButton>
+            </IconButton>) }
+            
         </HStack>
         <AlertDialog
         isOpen={isOpen}
