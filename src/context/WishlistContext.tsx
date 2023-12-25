@@ -42,7 +42,7 @@ export const WishlistProvider = ({ children } : any) => {
     try {
       setLoading(true)
       const newItem = await wishlistService.addToWishlist(book);
-      setWishlist(wishlist => wishlist.concat(newItem));
+      setWishlist(wishlist => [newItem].concat(wishlist));
       return true
     } catch (error) {
       return false

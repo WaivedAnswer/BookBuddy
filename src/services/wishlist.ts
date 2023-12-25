@@ -26,8 +26,7 @@ class RealWishlistService implements WishlistService {
             body: JSON.stringify({
                 title: book.title,
                 author: book.author,
-                reason: book.reason,
-                date_added: Date.now()
+                reason: book.reason
             })
         })
         .then(response => {
