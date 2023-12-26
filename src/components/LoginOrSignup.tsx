@@ -12,7 +12,7 @@ export default function LoginOrSignup() {
     }
 
     const onSignup = () => {
-        navigate("/login")
+        navigate("/signup")
       }
   
     const onLogout = async () => {

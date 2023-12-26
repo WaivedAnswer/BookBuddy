@@ -18,6 +18,7 @@ import ErrorPage from './routes/errorPage';
 import { Amplify } from 'aws-amplify';
 import LoginPage from './routes/loginPage';
 import { Authenticator } from '@aws-amplify/ui-react';
+import { LoginFlow } from './models/loginFlow';
 
 
 // Configure Amplify in index file or root file
@@ -45,7 +46,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage/>,
+    element: <LoginPage initialState={LoginFlow.SIGN_IN}/>,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/signup",
+    element: <LoginPage initialState={LoginFlow.SIGN_UP}/>,
     errorElement: <ErrorPage />
   }
 ]);
