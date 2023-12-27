@@ -5,7 +5,6 @@ interface PossibleBook {
 }
 
 interface BookRecommendationService {
-    getRecommendations(lookingFor: string): Promise<PossibleBook[]>;
     getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void>;
     getReason(book: PossibleBook, lookingFor: string): Promise<string>;
 }
@@ -102,34 +101,6 @@ export class ChatBookRecommendationService implements BookRecommendationService 
                 }
             }
     }
-
-    async getRecommendations(lookingFor: string): Promise<PossibleBook[]> {
-        return fetch("https://5hfpjs67uj.execute-api.us-east-2.amazonaws.com/test/books", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                lookingFor: lookingFor
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json()
-        })
-        .then((responseData) => {
-            if(!responseData.body) {
-                throw new Error('Failed to retrieve results. Try again.')
-            }
-            const recommendationData: ResponseData = JSON.parse(responseData.body)
-            if(!recommendationData.results) {
-                throw new Error('Failed to retrieve results. Try again.')
-            }
-            return recommendationData.results
-        })
-    }
 }
 
 export class FakeRecommendationService implements BookRecommendationService {
@@ -166,14 +137,9 @@ export class FakeRecommendationService implements BookRecommendationService {
     async getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void> {
         for(let recommendation of this.recommendations) {
             await new Promise(r => setTimeout(r, 2000));
-            onRecommendation(recommendation)
+            //onRecommendation(recommendation)
         }
     }
-
-    async getRecommendations(lookingFor: string): Promise<PossibleBook[]> {
-        return this.recommendations
-    }
-    
 }
 
 export function getFallbackReason(bookTitle: string) {

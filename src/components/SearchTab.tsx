@@ -35,7 +35,7 @@ export default function SearchTab() {
     const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
     const [currentSearch, setCurrentSearch] = useState<string>("")
     const [searchStatus, setSearchStatus] = useState<SearchStatus>(SearchStatus.INITIAL)
-    const [accordionIndex, setAccordionIndex] = useState(0)
+    const [accordionIndexes, setAccordionIndexes] = useState([0])
     const errorToast = useToast()
 
     
@@ -44,7 +44,7 @@ export default function SearchTab() {
     }
 
     const onAccordionChange = (accordionIndex: any) => {
-        setAccordionIndex(accordionIndex)
+        setAccordionIndexes(accordionIndex)
     }
     
 
@@ -52,39 +52,39 @@ export default function SearchTab() {
         setRecommendations(prevRecommendations => [...prevRecommendations, recommendation])
     }
 
+    const failSearch = (title : string, description: string, statusType: "info" | "warning" | "success" | "error" | "loading" | undefined) => {
+      setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
+        errorToast({
+            title: title,
+            description: description,
+            status: statusType,
+            duration: 9000,
+            isClosable: true,
+        })
+    }
+
     useEffect( () => {
         if(searchStatus === SearchStatus.ERROR && recommendations.length === 0) {
-        setAccordionIndex(0)
-        errorToast({
-            title: 'Search Failed',
-            description: "Try again in a few minutes",
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-        })
+        failSearch(
+            'Search Failed',
+            "Try again in a few minutes",
+            'error')
         } else if(searchStatus === SearchStatus.MODERATION_ERROR && recommendations.length === 0) {
-        setAccordionIndex(0)
-        errorToast({
-            title: 'Search Failed',
-            description: "Blocked due to policy restrictions",
-            status: 'warning',
-            duration: 9000,
-            isClosable: true,
-        })
+        failSearch(
+            'Search Failed',
+            "Blocked due to policy restrictions",
+            'warning')
         }else if(searchStatus === SearchStatus.COMPLETE && recommendations.length === 0 ) {
-        errorToast({
-            title: 'No Results Found',
-            description: "Try a different search",
-            status: 'info',
-            duration: 9000,
-            isClosable: true,
-        })
+        setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
+        failSearch('No Results Found',
+            "Try a different search",
+            'info')
         }
         
     }, [errorToast, recommendations, searchStatus])
 
     async function onSearch(description: string) {
-        setAccordionIndex(1)
+        setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
         if(searchStatus === SearchStatus.SEARCHING) {
         return
         }
@@ -110,10 +110,9 @@ export default function SearchTab() {
       <Flex direction="column" margin={{ base: "0% 0%", md: "0% 5%", lg: "0% 10%" }} justify="flex-start">
         <Accordion flex="4"
           className="App-body"
-          defaultIndex={0}
-          index={accordionIndex}
           onChange={onAccordionChange}
-
+          allowMultiple
+          index={accordionIndexes}
           borderRadius="5">
           <AccordionItem>
             <AccordionButton bgColor="gray.100">
