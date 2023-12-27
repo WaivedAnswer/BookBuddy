@@ -1,4 +1,4 @@
-  import { Heading, VStack, Text, Container, Box, Spacer, HStack, Button, Flex, Divider } from '@chakra-ui/react';
+  import { Heading, Text, Container, HStack, Button, Flex, Divider } from '@chakra-ui/react';
 import SearchTab from '../components/SearchTab';
 import { useNavigate } from 'react-router-dom';
   

@@ -8,10 +8,8 @@ import {
   Button,
   VStack} from '@chakra-ui/react';
 import SocialShareBar from './components/SocialShareBar';
-import SearchTab from './components/SearchTab';
 import { useEffect, useRef, useState } from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { useNavigate } from 'react-router-dom';
 import MainApp from './components/MainApp';
 import LoginOrSignup from './components/LoginOrSignup';
 import LandingPage from './components/LandingPage';
