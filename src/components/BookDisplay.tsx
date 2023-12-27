@@ -72,7 +72,7 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
       </CardBody>
       <CardFooter>
         <HStack>
-          <Text size="md" as="b">Buy on:</Text>
+          <Text size="md" as="b">{itemId ? "Buy on:" : "View on:"}</Text>
           {link ? <Button as="a" href={link} target="_blank" rel="sponsored nofollow noopener" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
             <Spinner />}
         </HStack>

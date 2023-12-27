@@ -14,6 +14,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 import MainApp from './components/MainApp';
 import LoginOrSignup from './components/LoginOrSignup';
+import LandingPage from './components/LandingPage';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
@@ -49,7 +50,7 @@ function App() {
           </VStack>
           <LoginOrSignup/>
         </Flex>
-        {user ? <MainApp headerOffset={headerOffset}/> : <SearchTab/>}
+        {user ? <MainApp headerOffset={headerOffset}/> : <LandingPage/>}
         <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
           <Center flex="1">
             <Button as="a"
