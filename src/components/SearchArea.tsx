@@ -49,7 +49,7 @@ function SearchArea({onSearch} : SearchAreaParams) {
             onKeyDown={handleKeyDown} 
             fontSize={{base: "md", sm:"lg"}}/>
     </Container>
-      <Button isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
+      <Button size="lg" isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
         Search
       </Button>
     </VStack>

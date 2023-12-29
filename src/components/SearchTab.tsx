@@ -22,14 +22,15 @@ import React from 'react';
 enum SearchStatus {
     INITIAL,
     SEARCHING,
-    COMPLETE,
+    FINISHED,
+    NO_RESULTS,
     ERROR,
     MODERATION_ERROR
-  }
+}
 
 const MemoSearchDemo = React.memo(() => (
     <SearchDemo/>
-  ));
+));
 
 export default function SearchTab() {
     const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
@@ -52,56 +53,83 @@ export default function SearchTab() {
         setRecommendations(prevRecommendations => [...prevRecommendations, recommendation])
     }
 
-    const failSearch = (title : string, description: string, statusType: "info" | "warning" | "success" | "error" | "loading" | undefined) => {
-      setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
-        errorToast({
-            title: title,
-            description: description,
-            status: statusType,
-            duration: 9000,
-            isClosable: true,
-        })
-    }
 
     useEffect( () => {
-        if(searchStatus === SearchStatus.ERROR && recommendations.length === 0) {
-        failSearch(
-            'Search Failed',
-            "Try again in a few minutes",
-            'error')
-        } else if(searchStatus === SearchStatus.MODERATION_ERROR && recommendations.length === 0) {
-        failSearch(
-            'Search Failed',
-            "Blocked due to policy restrictions",
-            'warning')
-        }else if(searchStatus === SearchStatus.COMPLETE && recommendations.length === 0 ) {
+      const failSearch = (title : string, description: string, statusType: "info" | "warning" | "success" | "error" | "loading" | undefined) => {
         setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
-        failSearch('No Results Found',
-            "Try a different search",
-            'info')
-        }
+          errorToast({
+              title: title,
+              description: description,
+              status: statusType,
+              duration: 9000,
+              isClosable: true,
+          })
+      }
+      if(searchStatus === SearchStatus.ERROR && recommendations.length === 0) {
+      failSearch(
+          'Search Failed',
+          "Try again in a few minutes",
+          'error')
+      } else if(searchStatus === SearchStatus.MODERATION_ERROR && recommendations.length === 0) {
+      failSearch(
+          'Search Failed',
+          "Blocked due to policy restrictions",
+          'warning')
+      }else if(searchStatus === SearchStatus.FINISHED && recommendations.length === 0 ) {
+      setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
+      failSearch('No Results Found',
+          "Try a different search",
+          'info')
+      }
         
     }, [errorToast, recommendations, searchStatus])
 
-    async function onSearch(description: string) {
-        setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
-        if(searchStatus === SearchStatus.SEARCHING) {
-        return
-        }
-        setSearchStatus(SearchStatus.SEARCHING)
-        setCurrentSearch(description)
-        populateResults([])
-
-        try {
-        await getRecommendationService().getRecommendationStream(description, onRecommendation)
-            setSearchStatus(SearchStatus.COMPLETE)
-        } catch (error : any) {
-        if (error.message === "MODERATION") {
-            setSearchStatus(SearchStatus.MODERATION_ERROR)
+    async function handleSearch(searchFunction: Function) {
+      setSearchStatus(SearchStatus.SEARCHING);
+      let recommendationsReceived = false;
+      const checkForRecommendation = (book: PossibleBook) => {
+        recommendationsReceived = true;
+        onRecommendation(book);
+      };
+      try {
+        await searchFunction(checkForRecommendation)
+        if (!recommendationsReceived) {
+          setSearchStatus(SearchStatus.NO_RESULTS);
         } else {
-            setSearchStatus(SearchStatus.ERROR)
+          setSearchStatus(SearchStatus.FINISHED);
         }
+      } catch (error: any) {
+        if (error.message === "MODERATION") {
+          setSearchStatus(SearchStatus.MODERATION_ERROR);
+        } else {
+          setSearchStatus(SearchStatus.ERROR);
         }
+      }
+    }
+
+    async function onSearch(description: string) {
+      setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
+      if(searchStatus === SearchStatus.SEARCHING) {
+        return
+      }
+      setCurrentSearch(description)
+      populateResults([])
+
+      const searchFunction = (recommendationHandler : Function) => getRecommendationService().getRecommendationStream(description, recommendationHandler)
+      await handleSearch(searchFunction)
+    }
+
+    const onAddResults = async (description : string, currentResults : PossibleBook[] ) => {
+      if(searchStatus === SearchStatus.SEARCHING) {
+        return
+      }
+      const searchFunction = (recommendationHandler : Function) => getRecommendationService().getAdditionalRecommendations(description, currentResults, recommendationHandler);
+      await handleSearch(searchFunction);
+    }
+
+    const hasMoreResults = () => {
+      const SEARCH_RESULT_LIMIT = 20
+      return searchStatus === SearchStatus.FINISHED && recommendations.length < SEARCH_RESULT_LIMIT
     }
 
     return (
@@ -137,7 +165,11 @@ export default function SearchTab() {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              <BookResultList results={recommendations} isSearching={searchStatus === SearchStatus.SEARCHING} currentSearch={currentSearch} />
+              <BookResultList results={recommendations} 
+              isSearching={searchStatus === SearchStatus.SEARCHING} 
+              hasMoreResults={hasMoreResults()}
+              currentSearch={currentSearch} 
+              onAddResults={() => onAddResults(currentSearch, recommendations)}/>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

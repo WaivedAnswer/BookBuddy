@@ -6,6 +6,7 @@ interface PossibleBook {
 
 interface BookRecommendationService {
     getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void>;
+    getAdditionalRecommendations(lookingFor: string, currentResults : PossibleBook[], onRecommendation: Function) : Promise<void>
     getReason(book: PossibleBook, lookingFor: string): Promise<string>;
 }
 
@@ -18,6 +19,11 @@ interface ReasonResponseData {
 }
 
 export class ChatBookRecommendationService implements BookRecommendationService {
+    getAdditionalRecommendations(lookingFor: string, currentResults: PossibleBook[], onRecommendation: Function): Promise<void> {
+        const titles = currentResults.map(result => result.title)
+        const additionText = `You already suggested the following: ${titles.join(", ")}. What other books do you suggest?`
+        return this.getRecommendationStream(lookingFor + ". " + additionText, onRecommendation)
+    }
     async getReason(book: PossibleBook, lookingFor: string): Promise<string> {
         //TODO replace URLs with environment variables?
         return fetch("https://xz6ywnep4pctm7wbxubq366rei0irhty.lambda-url.us-east-2.on.aws/", {
@@ -105,6 +111,7 @@ export class ChatBookRecommendationService implements BookRecommendationService 
 
 export class FakeRecommendationService implements BookRecommendationService {
     recommendations: PossibleBook[];
+    additional: PossibleBook[];
     constructor() {
         this.recommendations = [
             {
@@ -128,6 +135,36 @@ export class FakeRecommendationService implements BookRecommendationService {
                 author: "William Shakespeare",
             }
         ]
+        this.additional = [
+            {
+                title: "Cristo: The Count of Excellency",
+                author: "Dumas Alexandre ",
+            },
+            {
+                title: "Cabin Uncle Tom's Cabin",
+                author: "Stowe Harriet",
+            },
+            {
+                title: "Women Subjection",
+                author: "Mill John",
+            },
+            {
+                title: "Own A Room",
+                author: "Woolf Virginia",
+            },
+            {
+                title: "Caesar Julius",
+                author: "Shakespeare William",
+            }
+        ]
+    }
+    async getAdditionalRecommendations(lookingFor: string, currentResults: PossibleBook[], onRecommendation: Function): Promise<void> {
+        const resultCount = currentResults.length
+        for(let recommendation of this.additional) { 
+            recommendation.title = recommendation.title +` ${resultCount}`
+            await new Promise(r => setTimeout(r, 1000));
+            onRecommendation(recommendation)
+        }
     }
     async getReason(book: PossibleBook, lookingFor: string): Promise<string> {
         await new Promise(r => setTimeout(r, 2000));
@@ -137,7 +174,7 @@ export class FakeRecommendationService implements BookRecommendationService {
     async getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void> {
         for(let recommendation of this.recommendations) {
             await new Promise(r => setTimeout(r, 2000));
-            //onRecommendation(recommendation)
+            onRecommendation(recommendation)
         }
     }
 }
