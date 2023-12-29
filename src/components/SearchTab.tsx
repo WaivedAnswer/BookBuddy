@@ -55,8 +55,8 @@ export default function SearchTab() {
 
 
     useEffect( () => {
+      const closeResults = () => setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
       const failSearch = (title : string, description: string, statusType: "info" | "warning" | "success" | "error" | "loading" | undefined) => {
-        setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
           errorToast({
               title: title,
               description: description,
@@ -66,18 +66,22 @@ export default function SearchTab() {
           })
       }
       if(searchStatus === SearchStatus.ERROR && recommendations.length === 0) {
-      failSearch(
+        closeResults()
+        failSearch(
           'Search Failed',
           "Try again in a few minutes",
           'error')
       } else if(searchStatus === SearchStatus.MODERATION_ERROR && recommendations.length === 0) {
-      failSearch(
+        closeResults()
+        failSearch(
           'Search Failed',
           "Blocked due to policy restrictions",
           'warning')
-      }else if(searchStatus === SearchStatus.FINISHED && recommendations.length === 0 ) {
-      setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
-      failSearch('No Results Found',
+      } else if(searchStatus === SearchStatus.NO_RESULTS) {
+        if(recommendations.length === 0) {
+          closeResults()
+        }
+        failSearch('No Results Found',
           "Try a different search",
           'info')
       }

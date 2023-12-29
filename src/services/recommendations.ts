@@ -10,9 +10,6 @@ interface BookRecommendationService {
     getReason(book: PossibleBook, lookingFor: string): Promise<string>;
 }
 
-interface ResponseData {
-    results: PossibleBook[]
-}
 
 interface ReasonResponseData {
     reason: string
@@ -173,7 +170,7 @@ export class FakeRecommendationService implements BookRecommendationService {
     
     async getRecommendationStream(lookingFor: string, onRecommendation: Function): Promise<void> {
         for(let recommendation of this.recommendations) {
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 1000));
             onRecommendation(recommendation)
         }
     }
