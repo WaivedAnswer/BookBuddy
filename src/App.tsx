@@ -41,7 +41,7 @@ function App() {
         justify="space-between"
         top={{base: "-1px", md: 0}}
         position="sticky"
-        zIndex={1}>
+        zIndex={10}>
           <VStack gap={0} ml={4}>
             <Heading as="h1" color="white">FindMyRead</Heading>
             <Text size="xs" color="white">Great Books. Just For You</Text>
@@ -65,6 +65,7 @@ function App() {
           </Box>
           <Center flex={{base: "2", md:"1"}}>
             <SocialShareBar />
+            <a rel="me" style={{display:"none"}} href="https://botsin.space/@FindMyNextRead">Mastodon</a>
           </Center>
         </Flex>
       </Flex>

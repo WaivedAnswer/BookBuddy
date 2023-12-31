@@ -17,7 +17,7 @@ import {
     return (
       <WishlistProvider>
           <Tabs flex="1" variant="enclosed-colored" align="start" size="md">
-            <TabList position="sticky" top={headerOffset} zIndex={1} bgColor="gray.200">
+            <TabList position="sticky" top={headerOffset} zIndex={10} bgColor="gray.200">
                 <Tab><Text size="md">Search</Text></Tab>
                 <Tab><WishlistTabTitle/></Tab>
               </TabList>
