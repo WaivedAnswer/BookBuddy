@@ -24,7 +24,7 @@ function BookResult( { result, currentSearch } : BookResultParams) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result, currentSearch])
   return ( 
-    <BookDisplay title={result.title} author={result.author} reason={reason ? reason : ""}/>
+    <BookDisplay title={result.title} author={result.author} reason={reason}/>
   )
 }
 

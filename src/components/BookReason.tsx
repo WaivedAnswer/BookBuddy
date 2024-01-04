@@ -6,13 +6,12 @@ interface BookReasonParams {
 
 function BookReason( {reason } : BookReasonParams) {
   return ( 
-
-      <Flex direction="column" justify="center">
-        {reason ? 
+      <Flex direction="column" justify="center" mb={2}>
+      <SkeletonText noOfLines={{base: 5, sm: 3}} skeletonHeight = {{base:"3", md:"4"}} spacing="3" isLoaded={reason !== null}>
         <Text fontSize={{base:"lg", lg:"xl", xl:"2xl"}}>
             <Text as="span" fontWeight="bold">Why You'll Love This: </Text>{reason}
-        </Text> : 
-        <SkeletonText noOfLines={{base: 5, sm: 3}} mt='4' spacing='4' skeletonHeight='2' isLoaded={reason != null}/>}
+        </Text>
+        </SkeletonText>
       </Flex>
   )
 }
