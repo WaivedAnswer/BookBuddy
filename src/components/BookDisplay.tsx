@@ -6,6 +6,7 @@ import { getFixedLink, getLinkGenerationService } from "../services/linkGenerati
 import { useEffect, useState } from "react"
 import WishlistAction from "./WishlistAction"
 import { useAuthenticator } from "@aws-amplify/ui-react"
+import SignupWishlistAction from "./SignupWishlistAction"
 
 interface BookDisplayParams {
     title: string,
@@ -65,7 +66,7 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
             <BookReason reason={reason}/>
             <Spacer />
             <Flex>
-              {authStatus === 'authenticated' ? <WishlistAction item={{title, author, itemId, reason: reason ? reason : getFallbackReason(title)}}/> : ""}
+              {authStatus === 'authenticated' ? <WishlistAction item={{title, author, itemId, reason: reason ? reason : getFallbackReason(title)}}/> : <SignupWishlistAction/> }
             </Flex>
           </Flex>
         </Flex>

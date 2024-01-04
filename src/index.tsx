@@ -19,6 +19,7 @@ import { Amplify } from 'aws-amplify';
 import LoginPage from './routes/loginPage';
 import { Authenticator } from '@aws-amplify/ui-react';
 import { LoginFlow } from './models/loginFlow';
+import { RecommendationProvider } from './context/RecommendationContext';
 
 
 // Configure Amplify in index file or root file
@@ -61,9 +62,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Authenticator.Provider>
-    <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-    </ChakraProvider>
+    <RecommendationProvider>
+      <ChakraProvider theme={theme}>
+          <RouterProvider router={router} />
+      </ChakraProvider>
+    </RecommendationProvider>
   </Authenticator.Provider>
 );
 

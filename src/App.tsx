@@ -48,7 +48,7 @@ function App() {
           </VStack>
           <LoginOrSignup/>
         </Flex>
-        {user ? <MainApp headerOffset={headerOffset}/> : <LandingPage/>}
+          {user ? <MainApp headerOffset={headerOffset}/> : <LandingPage/>}
         <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
           <Center flex="1">
             <Button as="a"

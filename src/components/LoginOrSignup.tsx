@@ -1,9 +1,11 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import {Button, Center, Flex} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useRecommendations } from '../context/RecommendationContext';
   
 export default function LoginOrSignup() {
     const {signOut, user} = useAuthenticator((context) => [context.user])
+    const {clearRecommendations} = useRecommendations()
   
     const navigate = useNavigate()
   
@@ -16,6 +18,7 @@ export default function LoginOrSignup() {
       }
   
     const onLogout = async () => {
+      clearRecommendations()
       signOut()
     }
     return (
@@ -24,7 +27,7 @@ export default function LoginOrSignup() {
                 user ? <Button onClick={onLogout} >Logout</Button> : 
                 (<Flex direction={{base: "column", xs: "row"}} gap={{base: 1, sm: 2, lg: 4}}>
                 <Button size={{base:"sm", md:"md"}} onClick={onLogin}> Login</Button>
-                <Button size={{base:"sm", md:"md"}} onClick={onSignup}> Signup</Button>
+                <Button size={{base:"sm", md:"md"}} onClick={onSignup}> Sign up</Button>
                 </Flex>)
             }
                             

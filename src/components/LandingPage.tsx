@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
                 <Heading size={{base:"md", md:"lg"}}>Saving For Later?</Heading>
                 <Text fontSize={{base:"md", md:"lg"}}>Sign up to save books to your wishlist</Text>
               </Container>
-              <Button onClick={onSignup} margin={0} size={{base:"md", md:"lg"}} mr={4}>Signup</Button>
+              <Button onClick={onSignup} margin={0} size={{base:"md", md:"lg"}} mr={4}>Sign up</Button>
             </HStack>
             
     </Flex>

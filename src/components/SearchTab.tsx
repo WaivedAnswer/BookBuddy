@@ -17,42 +17,39 @@ import {
   useToast} from '@chakra-ui/react';
 import SearchDemo from './SearchDemo';
 import React from 'react';
+import { SearchStatus, useRecommendations } from '../context/RecommendationContext';
 
-
-enum SearchStatus {
-    INITIAL,
-    SEARCHING,
-    FINISHED,
-    NO_RESULTS,
-    ERROR,
-    MODERATION_ERROR
-}
 
 const MemoSearchDemo = React.memo(() => (
     <SearchDemo/>
 ));
 
 export default function SearchTab() {
-    const [recommendations, setRecommendations] = useState<PossibleBook[]>([])
-    const [currentSearch, setCurrentSearch] = useState<string>("")
-    const [searchStatus, setSearchStatus] = useState<SearchStatus>(SearchStatus.INITIAL)
+    const {recommendations, 
+      addRecommendation, 
+      clearRecommendations, 
+      searchStatus, 
+      setSearchStatus, 
+      currentSearch, 
+      setCurrentSearch} = useRecommendations()
     const [accordionIndexes, setAccordionIndexes] = useState([0])
     const errorToast = useToast()
+    const openResults = () => setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
 
-    
-    const populateResults = (results: PossibleBook[]) => {
-        setRecommendations(results)
-    }
+    useEffect(() => {
+      if(recommendations.length !== 0) {
+        openResults()
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const onAccordionChange = (accordionIndex: any) => {
         setAccordionIndexes(accordionIndex)
     }
-    
-
+  
     const onRecommendation = (recommendation : PossibleBook) => {
-        setRecommendations(prevRecommendations => [...prevRecommendations, recommendation])
+      addRecommendation(recommendation)
     }
-
 
     useEffect( () => {
       const closeResults = () => setAccordionIndexes(accordionIndexes => accordionIndexes.filter(index => index !== 1))
@@ -112,12 +109,12 @@ export default function SearchTab() {
     }
 
     async function onSearch(description: string) {
-      setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
       if(searchStatus === SearchStatus.SEARCHING) {
         return
       }
+      openResults()
       setCurrentSearch(description)
-      populateResults([])
+      clearRecommendations()
 
       const searchFunction = (recommendationHandler : Function) => getRecommendationService().getRecommendationStream(description, recommendationHandler)
       await handleSearch(searchFunction)
