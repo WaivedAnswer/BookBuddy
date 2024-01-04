@@ -9,12 +9,13 @@ export default function SignupWishlistAction() {
     const navigate = useNavigate()
 
     const handleSignup = async () => {
-        try {
-            onClose()
-            navigate("/signup")
-        } catch (error) {
-        } finally {
-        }
+        onClose()
+        navigate("/signup")
+    }
+
+    const handleLogin = async () => {
+        onClose()
+        navigate("/login")
     }
 
     const handleAdd = async () => {
@@ -32,16 +33,17 @@ export default function SignupWishlistAction() {
                 <AlertDialogOverlay>
                 <AlertDialogContent>
                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                    Sign Up
+                    Account Required
                     </AlertDialogHeader>
-
                     <AlertDialogBody>
-                    Sign up and save books to your wishlist
+                    Log in or Sign up to save books to your wishlist
                     </AlertDialogBody>
-
                     <AlertDialogFooter>
                     <Button ref={cancelRef} onClick={onClose}>
                         Cancel
+                    </Button>
+                    <Button onClick={handleLogin} ml={3}>
+                        Log in
                     </Button>
                     <Button colorScheme='blue' onClick={handleSignup} ml={3}>
                         Sign up
