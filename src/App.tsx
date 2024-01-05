@@ -65,7 +65,6 @@ function App() {
           </Box>
           <Center flex={{base: "2", md:"1"}}>
             <SocialShareBar />
-            <a rel="me" style={{display:"none"}} href="https://botsin.space/@FindMyNextRead">Mastodon</a>
           </Center>
         </Flex>
       </Flex>
