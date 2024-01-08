@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './index.css';
@@ -6,20 +5,23 @@ import '@aws-amplify/ui-react/styles.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ChakraProvider } from '@chakra-ui/react';
+
 import theme from './themes/theme'
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import ErrorPage from './routes/errorPage';
-import { Amplify } from 'aws-amplify';
 import LoginPage from './routes/loginPage';
-import { Authenticator } from '@aws-amplify/ui-react';
+
 import { LoginFlow } from './models/loginFlow';
 import { RecommendationProvider } from './context/RecommendationContext';
+import { AnalyticsProvider } from './context/AnalyticsContext';
 
 
 // Configure Amplify in index file or root file
@@ -62,11 +64,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Authenticator.Provider>
-    <RecommendationProvider>
-      <ChakraProvider theme={theme}>
-          <RouterProvider router={router} />
-      </ChakraProvider>
-    </RecommendationProvider>
+    <AnalyticsProvider>
+      <RecommendationProvider>
+        <ChakraProvider theme={theme}>
+            <RouterProvider router={router} />
+        </ChakraProvider>
+      </RecommendationProvider>
+    </AnalyticsProvider>
   </Authenticator.Provider>
 );
 
