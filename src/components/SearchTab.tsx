@@ -127,6 +127,7 @@ export default function SearchTab() {
       if(searchStatus === SearchStatus.SEARCHING) {
         return
       }
+      trackAction("Search Show More")
       const searchFunction = (recommendationHandler : Function) => getRecommendationService().getAdditionalRecommendations(description, currentResults, recommendationHandler);
       await handleSearch(searchFunction);
     }

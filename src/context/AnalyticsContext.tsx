@@ -9,12 +9,19 @@ const AnalyticsContext = createContext<null | AnalyticsContextParams> (null);
 
 
 export const AnalyticsProvider = ({ children } : any) => {
-    //const location = useLocation()
-
     useEffect(() => { 
-        ReactGA.initialize("G-7VL62VHHXE");}, [])
+        if(process.env.NODE_ENV !== 'production') {
+            console.log("Not initializing Analytics")
+            return
+        }
+        ReactGA.initialize("G-7VL62VHHXE");
+    }, [])
 
     const trackAction = (actionName: string) => {
+        if(process.env.NODE_ENV !== 'production') {
+            console.log(`Tracking: ${actionName}`)
+            return 
+        }
         ReactGA.event({
             category: "Main",
             action: actionName,

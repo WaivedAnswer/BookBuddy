@@ -86,7 +86,9 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
           bgColor="midnightblue" 
           color="white" 
           borderRadius="full"
-          onClick={() => trackClick()}>Amazon</Button> :
+          onClick={() => trackClick()}
+          onContextMenu={() => trackClick()}
+          >Amazon</Button> :
             <Spinner />}
         </HStack>
       </CardFooter>
