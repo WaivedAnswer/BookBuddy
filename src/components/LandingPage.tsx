@@ -1,10 +1,13 @@
   import { Heading, Text, Container, HStack, Button, Flex, Divider } from '@chakra-ui/react';
 import SearchTab from '../components/SearchTab';
 import { useNavigate } from 'react-router-dom';
+import { useAnalytics } from '../context/AnalyticsContext';
   
   function LandingPage() {
+    const { trackAction } = useAnalytics()
     const navigate = useNavigate()
     const onSignup = () => {
+      trackAction("Landing Signup")
       navigate("/signup")
     }
 

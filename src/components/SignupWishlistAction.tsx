@@ -2,13 +2,16 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 import WishlistAdd from "./WishlistAdd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAnalytics } from "../context/AnalyticsContext";
 
 export default function SignupWishlistAction() {
+    const {trackAction} = useAnalytics()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef(null)
     const navigate = useNavigate()
 
     const handleSignup = async () => {
+        trackAction("Offline Add Signup")
         onClose()
         navigate("/signup")
     }
@@ -19,6 +22,7 @@ export default function SignupWishlistAction() {
     }
 
     const handleAdd = async () => {
+        trackAction("Offline Add Action")
         onOpen()
     }
 

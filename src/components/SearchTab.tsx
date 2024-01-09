@@ -18,6 +18,7 @@ import {
 import SearchDemo from './SearchDemo';
 import React from 'react';
 import { SearchStatus, useRecommendations } from '../context/RecommendationContext';
+import { useAnalytics } from '../context/AnalyticsContext';
 
 
 const MemoSearchDemo = React.memo(() => (
@@ -32,6 +33,7 @@ export default function SearchTab() {
       setSearchStatus, 
       currentSearch, 
       setCurrentSearch} = useRecommendations()
+    const {trackAction} = useAnalytics()
     const [accordionIndexes, setAccordionIndexes] = useState([0])
     const errorToast = useToast()
     const openResults = () => setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
@@ -112,6 +114,7 @@ export default function SearchTab() {
       if(searchStatus === SearchStatus.SEARCHING) {
         return
       }
+      trackAction("Search")
       openResults()
       setCurrentSearch(description)
       clearRecommendations()

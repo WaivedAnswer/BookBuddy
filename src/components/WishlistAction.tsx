@@ -3,6 +3,7 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { useWishlist } from "../context/WishlistContext";
 import { WishlistItem } from "../services/wishlist";
 import React, { useEffect, useState } from "react";
+import { useAnalytics } from "../context/AnalyticsContext";
 
 
 interface WishlistActionParams {
@@ -10,6 +11,7 @@ interface WishlistActionParams {
 }
 
 export default function WishlistAction({item}: WishlistActionParams) {
+    const { trackAction } = useAnalytics()
     const { wishlist, handleAddToWishlist, handleRemoveFromWishlist } = useWishlist();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [ wishlistItem, setWishlistItem] = useState<WishlistItem | undefined >()
@@ -30,6 +32,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
             if(!wishlistItem?.itemId) {
                 throw new Error("Item not in wishlist")
             }
+            trackAction("Wishlist Remove")
             const success = await handleRemoveFromWishlist(wishlistItem.itemId)
             if(!success) {
                 errorToast({
@@ -53,6 +56,7 @@ export default function WishlistAction({item}: WishlistActionParams) {
         } else {
             try {
                 setInProgress(true)
+                trackAction("Wishlist Add")
                 const success = await handleAddToWishlist(item)
                 if(!success) {
                     errorToast({

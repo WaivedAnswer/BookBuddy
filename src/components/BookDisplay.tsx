@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import WishlistAction from "./WishlistAction"
 import { useAuthenticator } from "@aws-amplify/ui-react"
 import SignupWishlistAction from "./SignupWishlistAction"
+import { useAnalytics } from "../context/AnalyticsContext"
 
 interface BookDisplayParams {
     title: string,
@@ -19,6 +20,7 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
     const [link, setLink] = useState<string | null>(null)
     const [image, setImage] = useState<string >("")
     const {authStatus } = useAuthenticator( (context) => [context.authStatus])
+    const {trackAction} = useAnalytics()
 
     useEffect(() => {
         async function generateLink() {
@@ -35,6 +37,10 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
         }
         generateLink()
       },[title, author])
+
+    const trackClick = () => {
+      trackAction("Amazon Click")
+    }
 
     return (
     <Card
@@ -74,7 +80,13 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
       <CardFooter>
         <HStack>
           <Text size="md" as="b">{itemId ? "Buy on:" : "View on:"}</Text>
-          {link ? <Button as="a" href={link} target="_blank" rel="sponsored nofollow noopener" bgColor="midnightblue" color="white" borderRadius="full">Amazon</Button> :
+          {link ? <Button as="a" href={link} 
+          target="_blank" 
+          rel="sponsored nofollow noopener" 
+          bgColor="midnightblue" 
+          color="white" 
+          borderRadius="full"
+          onClick={() => trackClick()}>Amazon</Button> :
             <Spinner />}
         </HStack>
       </CardFooter>
