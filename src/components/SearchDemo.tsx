@@ -3,7 +3,7 @@ import { TypeAnimation } from 'react-type-animation';
  
 export default function SearchDemo() {
     const demoPhrases = [
-        'I am looking for a good Christmas-themed bedtime story for my toddler',
+        'I am looking for the best books on leadership',
         'I am looking for a cozy romantic winter read',
         'I am looking for a gripping mystery novel with a strong female detective',
         'I am looking for the best classic fiction books to read on my holiday',
