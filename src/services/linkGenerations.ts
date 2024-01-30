@@ -1,3 +1,5 @@
+import { isLocal } from "./isLocal"
+
 interface LinkGenerationService {
     generateLink(bookTitle: string, bookAuthor: string) : Promise<LinkResponseData>
 }
@@ -17,7 +19,8 @@ export class AmazonBestSellerLinkGenerator implements LinkGenerationService {
             },
             body: JSON.stringify({
                 bookTitle: bookTitle,
-                bookAuthor: bookAuthor
+                bookAuthor: bookAuthor,
+                isLocal: isLocal()
             })
         })
         .then(response => {
@@ -59,7 +62,12 @@ class FakeLinkGenerationService implements LinkGenerationService {
 }
 
 export function getFixedLink(bookTitle: string) {
-   return "https://www.amazon.ca/s?k=" + bookTitle.replaceAll(" ", "+") + "&tag=myread0a-20"
+    const baseLink = "https://www.amazon.ca/s?k=" + bookTitle.replaceAll(" ", "+")
+    const affiliateTag = "&tag=myread0a-20"
+    if(isLocal()) {
+        return baseLink
+    }
+    return baseLink + affiliateTag
 }
 
 export function getLinkGenerationService() {
