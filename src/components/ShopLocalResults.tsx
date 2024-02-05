@@ -1,8 +1,9 @@
 import { Button, Divider, HStack, Heading, Input, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Spinner, UnorderedList, VStack, useDisclosure, Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import ShopResult, { ShopResultParams } from "./ShopResult";
+import { useCallback, useEffect, useState } from "react";
+import ShopResult from "./ShopResult";
 import { useLocation } from "../context/LocationContext";
 import LoadingIcon from "./LoadingIcon";
+import { ShopResultParams, getLocalBookService } from "../services/localResults";
 
 interface ShopLocalResultsParams {
     isOpen: boolean
@@ -31,6 +32,19 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
     const {fetchLocation } = useLocation()
     const handleChange = (event : any) => setPostal(event.target.value)
 
+    const searchResults = useCallback(async (longitude: number | null, latitude: number | null) => {
+        setLoadingStatus(LoadingStatus.SEARCHING)
+        try {
+            const results = await getLocalBookService().searchResults(longitude, latitude, isbn, postal)
+            setResults(results)
+        } catch(error) {
+            console.error(error)
+            setResults([])
+        } finally {
+            setLoadingStatus(LoadingStatus.COMPLETE)
+        }
+    }, [isbn, postal])
+    
     useEffect(()=> {
         if(!isOpen) {
             return;
@@ -45,7 +59,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
             }
         }
         loadResults()
-    }, [isOpen])
+    }, [fetchLocation, isOpen, searchResults])
 
     const handleKeyDown = (event: any) => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -54,46 +68,6 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
         }
     };
 
-    const searchResults = async (longitude: number | null, latitude: number | null) => {
-        setLoadingStatus(LoadingStatus.SEARCHING)
-        try {
-            await new Promise(r => setTimeout(r, 3000));
-            let body = new FormData();
-            body.append("api_key", "5YKqfETqdBbDihZZEozM65k8jmeXs9tR")
-            if(isbn) {
-                body.append("isbn", isbn)
-            }
-            body.append("distance_km", "100")
-
-            if(longitude && latitude) {
-                body.append("latitude", latitude.toString())
-                body.append("longitude", longitude.toString())
-            } else {
-                body.append("postal", postal)
-            }
-    
-            fetch("https://api.bookmanager.com/tbm/nearbyStores/get", {
-                    method: "POST",
-                    body: body
-                }).then((function(e) {
-                    return e.json()
-                })).then(result => {
-                    if(result.error) {
-                        console.error(`Failed ${JSON.stringify(result)}`)
-                        setResults([])
-                    } else {
-                        setResults(result.rows)
-                    }
-                }).catch((function() {
-                    console.error("Failed to get local stores")
-                }))
-        } catch(error) {
-            console.error(error)
-            return
-        } finally {
-            setLoadingStatus(LoadingStatus.COMPLETE)
-        }
-    }
 
     const clearResultsOnClose = () => {
         setResults([])

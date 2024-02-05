@@ -1,23 +1,6 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, HStack, Heading, Link, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useAnalytics } from "../context/AnalyticsContext";
-
-export interface ShopResultParams {
-    address : string,
-    city : string,
-    distance_km : number,
-    //distance_mi : 34,
-    // is_preorder: false
-    // latitude : "49.8859"
-    // longitude : "-119.4948"
-    name : string
-    onhand : true
-    onorder : false
-    phone : string
-    // postal : "V1Y 6N8"
-    // province : "BC"
-    san : string
-    url : string
-}
+import { ShopResultParams } from "../services/localResults";
 
 interface ShopParams {
     result: ShopResultParams

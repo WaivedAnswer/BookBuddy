@@ -182,7 +182,7 @@ export function getFallbackReason(bookTitle: string) {
 }
 
 export function getRecommendationService() {
-    if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_REC_SERVICE === "true") {
+    if (process.env.NODE_ENV === 'production' || process.env.REACT_APP_REC_SERVICE === "true" || process.env.REACT_APP_ALL_SERVICES === "true") {
         return new ChatBookRecommendationService()
     } else {
         return new FakeRecommendationService()

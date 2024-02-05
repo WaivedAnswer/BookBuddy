@@ -71,7 +71,7 @@ class FakeBookInfoService implements BookInfoService {
 
 
 export function getBookInfoService() {
-    if(process.env.NODE_ENV === 'production' || process.env.REACT_APP_BOOK_SERVICE === "true") {
+    if(process.env.NODE_ENV === 'production' || process.env.REACT_APP_BOOK_SERVICE === "true"|| process.env.REACT_APP_ALL_SERVICES === "true") {
         return new ISBNBookInfoService()
     } else {
         return new FakeBookInfoService()
