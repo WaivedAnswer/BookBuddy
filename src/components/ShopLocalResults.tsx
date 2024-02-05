@@ -82,7 +82,10 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
             <Modal isOpen={isOpen} onClose={clearResultsOnClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader><Heading size={{base:"sm", sm: "md"}}>Support Independent Bookstores</Heading></ModalHeader>
+                    <ModalHeader>
+                        <Heading textAlign="center" size={{base:"sm", sm: "md"}}>Support Independent Bookstores</Heading>
+                        <Heading textAlign="center" size="xs" fontWeight="light">Currently Canada Only</Heading>
+                    </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack height="100%">
@@ -107,6 +110,8 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
                                 
                                 (<>
                                     <Heading fontSize="lg">{`Local Results`}</Heading>
+                                    {
+                                    results.length === 0 ? <Text>No Results Found</Text> :
                                     <UnorderedList spacing={4} listStyleType="none">
                                         {
                                         results.map((result : ShopResultParams) => 
@@ -115,6 +120,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
                                         </ListItem>)
                                         )}
                                     </UnorderedList>
+                                    }
                                 </>) :
                                 <LoadingIcon/>
                                 }
