@@ -18,7 +18,7 @@ function SocialShareBar( ) {
         <Text size="lg" color="white">Share</Text>
         <EmailShareButton url="findmyread.com" 
         subject="Book Recommendations" 
-        body="If you're looking for great book recommendations check out"
+        body="If you're looking for really good book recommendations check out"
         openShareDialogOnClick={true}
         onClick={()=>{}}>
             <EmailIcon size={32} round/>
@@ -27,10 +27,10 @@ function SocialShareBar( ) {
         <LinkedinShareButton url="findmyread.com" >
             <LinkedinIcon size={32} round/>
             </LinkedinShareButton>
-        <TwitterShareButton title="Looking for great book recommendations? Try out" url="findmyread.com" hashtags={["findmyread", "mybooks"]}>
+        <TwitterShareButton title="Looking for really good book recommendations? Try out" url="findmyread.com" hashtags={["findmyread", "mybooks"]}>
             <XIcon size={32} round/>
             </TwitterShareButton>
-        <RedditShareButton url="findmyread.com" title="Did you know you can get great book recommendations on FindMyRead?">
+        <RedditShareButton url="findmyread.com" title="Did you know you can get really good book recommendations on FindMyRead?">
             <RedditIcon size={32} round/>
             </RedditShareButton>
     </HStack>
