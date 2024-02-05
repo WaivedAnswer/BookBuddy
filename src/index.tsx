@@ -22,6 +22,7 @@ import LoginPage from './routes/loginPage';
 import { LoginFlow } from './models/loginFlow';
 import { RecommendationProvider } from './context/RecommendationContext';
 import { AnalyticsProvider } from './context/AnalyticsContext';
+import { LocationProvider } from './context/LocationContext';
 
 
 // Configure Amplify in index file or root file
@@ -65,11 +66,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <Authenticator.Provider>
     <AnalyticsProvider>
-      <RecommendationProvider>
-        <ChakraProvider theme={theme}>
-            <RouterProvider router={router} />
-        </ChakraProvider>
-      </RecommendationProvider>
+      <LocationProvider>
+        <RecommendationProvider>
+          <ChakraProvider theme={theme}>
+              <RouterProvider router={router} />
+          </ChakraProvider>
+        </RecommendationProvider>
+      </LocationProvider>
     </AnalyticsProvider>
   </Authenticator.Provider>
 );
