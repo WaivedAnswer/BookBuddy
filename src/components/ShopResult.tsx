@@ -10,10 +10,11 @@ export default function ShopLocalButton({result} : ShopParams) {
     return (
         <Card
         variant="outline"
+        size="sm"
         >
             <CardHeader>
                 <HStack justify="space-between">
-                    <Heading size="md">{result.name}</Heading>
+                    <Heading size={{base:"sm", sm:"md"}}>{result.name}</Heading>
                     <Text whiteSpace="nowrap">{`${result.distance_km} km`}</Text>
                 </HStack>
             </CardHeader>

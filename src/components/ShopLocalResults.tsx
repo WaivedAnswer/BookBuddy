@@ -44,7 +44,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
             setLoadingStatus(LoadingStatus.COMPLETE)
         }
     }, [isbn, postal])
-    
+
     useEffect(()=> {
         if(!isOpen) {
             return;
@@ -82,7 +82,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResu
             <Modal isOpen={isOpen} onClose={clearResultsOnClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader><Heading size="md">Support Independent Bookstores</Heading></ModalHeader>
+                    <ModalHeader><Heading size={{base:"sm", sm: "md"}}>Support Independent Bookstores</Heading></ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack height="100%">
