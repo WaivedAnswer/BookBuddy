@@ -19,7 +19,7 @@ interface BookDisplayParams {
   }
 
 export default function BookDisplay({title, author, reason, itemId} : BookDisplayParams) {
-    const [link, setLink] = useState<string | null>(null)
+    const [link, setLink] = useState<string>(getFixedLink(title))
     const [image, setImage] = useState<string | null >(null)
     const [isbn, setIsbn] = useState<string | null>(null)
     const {authStatus } = useAuthenticator( (context) => [context.authStatus])
@@ -91,20 +91,22 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
         </Flex>
       </CardBody>
       <CardFooter>
-        <HStack>
-          <Text size="md" as="b">{itemId ? "Buy on:" : "View on:"}</Text>
-          <ShopLocalButton isbn={isbn}/>
-          {link ? <Button as="a" href={link} 
-          target="_blank" 
-          rel="sponsored nofollow noopener" 
-          bgColor="midnightblue" 
-          color="white" 
-          borderRadius="full"
-          onClick={() => trackClick()}
-          onContextMenu={() => trackClick()}
-          >Amazon</Button> :
-            <Spinner />}
-        </HStack>
+        
+          <Flex flexDirection={{base: "column", sm: "row"}} gap = {2} align={{base: "left", sm: "center"}}>
+          <Heading size="sm" as="b">{itemId ? "Buy at:" : "View at:"}</Heading>
+          <HStack>
+            <ShopLocalButton isbn={isbn}/>
+            <Button as="a" href={link} 
+            target="_blank" 
+            rel="sponsored nofollow noopener" 
+            bgColor="midnightblue" 
+            color="white" 
+            borderRadius="full"
+            onClick={() => trackClick()}
+            onContextMenu={() => trackClick()}
+            >Amazon</Button>
+          </HStack>
+          </Flex>
       </CardFooter>
     </Card>
     )

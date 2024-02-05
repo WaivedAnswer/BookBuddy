@@ -17,8 +17,12 @@ export default function ShopLocalButton({isbn} : ShopLocalParams) {
     
     return (
         <>
-            <Button onClick={onClick}>
-            Shop Local
+            <Button 
+            bgColor="midnightblue" 
+            color="white" 
+            borderRadius="full"
+            onClick={onClick}>
+            Local Stores
             </Button>
             <ShopLocalResults isOpen={isOpen} onClose={onClose} isbn={isbn}/>
         </>
