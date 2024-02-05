@@ -1,16 +1,18 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 import ShopLocalResults from "./ShopLocalResults";
+import { useAnalytics } from "../context/AnalyticsContext";
 
 interface ShopLocalParams {
     isbn: string | null
-    title: string
   }
 
-export default function ShopLocalButton({isbn, title} : ShopLocalParams) {
+export default function ShopLocalButton({isbn} : ShopLocalParams) {
+    const {trackAction} = useAnalytics()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const onClick = async () => {
             onOpen()
+            trackAction("Shop Local Click")
     }
     
     return (
@@ -18,7 +20,7 @@ export default function ShopLocalButton({isbn, title} : ShopLocalParams) {
             <Button onClick={onClick}>
             Shop Local
             </Button>
-            <ShopLocalResults isOpen={isOpen} onClose={onClose} isbn={isbn} title={title}/>
+            <ShopLocalResults isOpen={isOpen} onClose={onClose} isbn={isbn}/>
         </>
     );
 };

@@ -8,7 +8,6 @@ interface ShopLocalResultsParams {
     isOpen: boolean
     onClose: () => void
     isbn: string | null
-    title: string
 }
 
 enum LocationStatus {
@@ -23,7 +22,8 @@ enum LoadingStatus {
     COMPLETE
 }
 
-export default function ShopLocalResults({isOpen, onClose, isbn, title} : ShopLocalResultsParams) {
+
+export default function ShopLocalResults({isOpen, onClose, isbn} : ShopLocalResultsParams) {
     const [postal, setPostal] = useState<string>("")
     const [locationStatus, setLocationStatus] = useState<LocationStatus>(LocationStatus.PENDING)
     const [results, setResults] = useState<ShopResultParams[]>([])
@@ -46,6 +46,13 @@ export default function ShopLocalResults({isOpen, onClose, isbn, title} : ShopLo
         }
         loadResults()
     }, [isOpen])
+
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            searchResults(null, null);
+        }
+    };
 
     const searchResults = async (longitude: number | null, latitude: number | null) => {
         setLoadingStatus(LoadingStatus.SEARCHING)
@@ -77,7 +84,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn, title} : ShopLo
                     } else {
                         setResults(result.rows)
                     }
-                }).catch((function(e) {
+                }).catch((function() {
                     console.error("Failed to get local stores")
                 }))
         } catch(error) {
@@ -101,7 +108,7 @@ export default function ShopLocalResults({isOpen, onClose, isbn, title} : ShopLo
             <Modal isOpen={isOpen} onClose={clearResultsOnClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader><Heading size="md">{title}</Heading></ModalHeader>
+                    <ModalHeader><Heading size="md">Support Independent Bookstores</Heading></ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack height="100%">
@@ -111,7 +118,10 @@ export default function ShopLocalResults({isOpen, onClose, isbn, title} : ShopLo
                                     <Spinner size="sm"></Spinner>
                                     </HStack> :
                             <HStack>
-                                <Input placeholder="Postal Code" value={postal} onChange={handleChange} 
+                                <Input placeholder="Postal Code" 
+                                value={postal} 
+                                onChange={handleChange} 
+                                onKeyDown={handleKeyDown} 
                                 width={36}></Input>
                                 <Button onClick={() => searchResults(null, null)}>Search</Button>
                             </HStack>

@@ -1,4 +1,5 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, HStack, Heading, Link, Spacer, Text, VStack } from "@chakra-ui/react";
+import { useAnalytics } from "../context/AnalyticsContext";
 
 export interface ShopResultParams {
     address : string,
@@ -22,6 +23,7 @@ interface ShopParams {
     result: ShopResultParams
 }
 export default function ShopLocalButton({result} : ShopParams) {
+    const {trackAction} = useAnalytics()
     return (
         <Card
         variant="outline"
@@ -45,6 +47,8 @@ export default function ShopLocalButton({result} : ShopParams) {
                 </HStack>
                 <Button as="a" 
                 href={result.url} 
+                onClick={() => trackAction("Shop Local Visit")}
+                onContextMenu={() => trackAction("Shop Local Visit")}
                 target="_blank" 
                 rel="sponsored nofollow noopener" 
                 colorScheme="blue">Visit</Button>

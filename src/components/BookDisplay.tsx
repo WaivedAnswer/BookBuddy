@@ -93,7 +93,7 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
       <CardFooter>
         <HStack>
           <Text size="md" as="b">{itemId ? "Buy on:" : "View on:"}</Text>
-          <ShopLocalButton isbn={isbn} title={title}/>
+          <ShopLocalButton isbn={isbn}/>
           {link ? <Button as="a" href={link} 
           target="_blank" 
           rel="sponsored nofollow noopener" 
