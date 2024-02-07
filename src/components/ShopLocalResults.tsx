@@ -1,4 +1,4 @@
-import { Button, Divider, HStack, Heading, Input, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Spinner, UnorderedList, VStack, useDisclosure, Box } from "@chakra-ui/react";
+import { Button, Divider, HStack, Heading, Input, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Spinner, UnorderedList, VStack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import ShopResult from "./ShopResult";
 import { useLocation } from "../context/LocationContext";

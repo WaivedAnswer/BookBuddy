@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAnalytics } from "../context/AnalyticsContext";
-import { LibraryDictionary, LibraryInfo, getLibraryService } from "../services/libraryService";
-import { Button, Divider, HStack, Heading, Input, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Spinner, UnorderedList, VStack, useDisclosure, Box, Select, Container, Link, Spacer } from "@chakra-ui/react";
+import { LibraryDictionary, getLibraryService } from "../services/libraryService";
+import { Button, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack, useDisclosure, Select, Link, Spacer } from "@chakra-ui/react";
 
 
 interface LibraryParams {
