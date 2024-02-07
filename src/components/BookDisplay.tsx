@@ -1,6 +1,6 @@
 import { getFallbackReason } from "../services/recommendations"
 import placeholderImage from "../images/book-cover-placeholder.png"
-import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spacer, Spinner, Text, VStack } from "@chakra-ui/react"
+import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spacer, VStack } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
@@ -10,6 +10,7 @@ import SignupWishlistAction from "./SignupWishlistAction"
 import { useAnalytics } from "../context/AnalyticsContext"
 import ShopLocalButton from "./ShopLocalButton"
 import { getBookInfoService } from "../services/bookInfo"
+import LibrarySearchButton from "./LibrarySearchButton"
 
 interface BookDisplayParams {
     title: string,
@@ -95,6 +96,7 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
           <Flex flexDirection={{base: "column", sm: "row"}} gap = {2} align={{base: "left", sm: "center"}}>
           <Heading size="sm" as="b">{itemId ? "Buy at:" : "View at:"}</Heading>
           <HStack>
+            <LibrarySearchButton title={title}/>
             <ShopLocalButton isbn={isbn}/>
             <Button as="a" href={link} 
             target="_blank" 

@@ -13,6 +13,7 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import MainApp from './components/MainApp';
 import LoginOrSignup from './components/LoginOrSignup';
 import LandingPage from './components/LandingPage';
+import ChooseLibrary from './components/ChooseLibrary';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
@@ -49,6 +50,7 @@ function App() {
           <LoginOrSignup/>
         </Flex>
           {user ? <MainApp headerOffset={headerOffset}/> : <LandingPage/>}
+          <ChooseLibrary/>
         <Flex as="footer" className="App-footer" direction="row" width="100%" bgColor="primary" align="center" padding={{base:1, sm:4}}>
           <Center flex="1">
             <Button as="a"

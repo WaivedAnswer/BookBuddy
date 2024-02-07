@@ -1,6 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import ReactGA from "react-ga4";
-import { isLocal } from '../services/isLocal';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 
 interface LocationContextParams {
@@ -22,7 +20,6 @@ export const LocationProvider = ({ children } : any) => {
                 return;
             }
             else if(latitude && longitude) {
-                console.log("Cached:", latitude, longitude)
                 resolve({latitude, longitude})
             }
             
@@ -37,7 +34,7 @@ export const LocationProvider = ({ children } : any) => {
               });
         })
         
-    }, [])
+    }, [latitude, longitude])
 
     return (
         <LocationContext.Provider value={{fetchLocation, longitude, latitude}}>
