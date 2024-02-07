@@ -20,7 +20,6 @@ export const LocationProvider = ({ children } : any) => {
                 return;
             }
             else if(latitude && longitude) {
-                console.log("Cached:", latitude, longitude)
                 resolve({latitude, longitude})
             }
             

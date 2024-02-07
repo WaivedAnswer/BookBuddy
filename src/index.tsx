@@ -23,6 +23,7 @@ import { LoginFlow } from './models/loginFlow';
 import { RecommendationProvider } from './context/RecommendationContext';
 import { AnalyticsProvider } from './context/AnalyticsContext';
 import { LocationProvider } from './context/LocationContext';
+import { LibraryProvider } from './context/LibraryContext';
 
 
 // Configure Amplify in index file or root file
@@ -69,7 +70,9 @@ root.render(
       <LocationProvider>
         <RecommendationProvider>
           <ChakraProvider theme={theme}>
+            <LibraryProvider>
               <RouterProvider router={router} />
+            </LibraryProvider>
           </ChakraProvider>
         </RecommendationProvider>
       </LocationProvider>
