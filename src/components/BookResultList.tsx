@@ -28,9 +28,6 @@ function BookResultList( { results, isSearching, currentSearch, onAddResults, ha
             {isSearching ? <LoadingIcon/> : (
                 hasMoreResults ? (<Button size="lg" colorScheme="blue" mt={4} mb={8} onClick={onAddResults}>Show More</Button>)
                 : "")}
-            <Box textAlign="center" width="100%">
-                <Text size="xs" fontWeight="light" fontStyle="italic">* As an Amazon Associate I earn from qualifying purchases *</Text>
-            </Box>
         </VStack>
         
     )
