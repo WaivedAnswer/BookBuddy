@@ -1,6 +1,6 @@
 import { getFallbackReason } from "../services/recommendations"
 import placeholderImage from "../images/book-cover-placeholder.png"
-import {Button, Card, CardBody, CardFooter, CardHeader, Flex, HStack, Heading, Image, Skeleton, Spacer, VStack } from "@chakra-ui/react"
+import {Button, Card, CardBody, CardFooter, CardHeader, Flex, Heading, Image, Skeleton, Spacer, VStack, Wrap, WrapItem } from "@chakra-ui/react"
 import BookReason from "./BookReason"
 import { getFixedLink, getLinkGenerationService } from "../services/linkGenerations"
 import { useEffect, useState } from "react"
@@ -95,10 +95,15 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
         
           <Flex flexDirection={{base: "column", sm: "row"}} gap = {2} align={{base: "left", sm: "center"}}>
           <Heading size="sm" as="b">{itemId ? "Buy at:" : "View at:"}</Heading>
-          <HStack>
-            <LibrarySearchButton title={title}/>
-            <ShopLocalButton isbn={isbn}/>
-            <Button as="a" href={link} 
+          <Wrap>
+            <WrapItem>
+              <LibrarySearchButton title={title}/>
+            </WrapItem>
+            <WrapItem>
+              <ShopLocalButton isbn={isbn}/>
+            </WrapItem>
+            <WrapItem>
+            <Button as="a" href={link} width="120px"
             target="_blank" 
             rel="sponsored nofollow noopener" 
             bgColor="midnightblue" 
@@ -107,7 +112,8 @@ export default function BookDisplay({title, author, reason, itemId} : BookDispla
             onClick={() => trackClick()}
             onContextMenu={() => trackClick()}
             >Amazon</Button>
-          </HStack>
+            </WrapItem>
+          </Wrap>
           </Flex>
       </CardFooter>
     </Card>

@@ -29,6 +29,7 @@ export default function LibrarySearchButton({title} : LibraryParams) {
     return (
         <>
             <Button 
+            width="120px"
             bgColor="midnightblue" 
             color="white" 
             borderRadius="full"

@@ -18,6 +18,7 @@ export default function ShopLocalButton({isbn} : ShopLocalParams) {
     return (
         <>
             <Button 
+            width="120px"
             bgColor="midnightblue" 
             color="white" 
             borderRadius="full"
