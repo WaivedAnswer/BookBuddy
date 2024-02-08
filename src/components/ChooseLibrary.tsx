@@ -3,7 +3,7 @@ import { useLibrary } from "../context/LibraryContext";
 import { ChangeEvent, useState } from "react";
 
 export default function ChooseLibrary() {
-    const {isOpen, onClose, libraries, setLibrary} = useLibrary()
+    const {isOpen, onClose, libraries, setLibrary, hasLibrary} = useLibrary()
     const [chosenValue, setChosenValue] = useState<string>()
 
     const pickLibrary = () => {
@@ -27,7 +27,7 @@ export default function ChooseLibrary() {
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack>
-                            <Select placeholder='Choose Your Library' onChange={onChange}>
+                            <Select placeholder={hasLibrary ? undefined : 'Choose Your Library'} onChange={onChange}>
                                 {
                                     Object.entries(libraries).map(([libraryKey, libraryInfo], _) => 
                                         <option key={libraryKey} value={libraryKey}>{libraryInfo.name}</option>

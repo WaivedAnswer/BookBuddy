@@ -11,6 +11,7 @@ import {
   AccordionItem, 
   AccordionPanel, 
   Box, 
+  Button, 
   Container, 
   Flex, 
   Heading, 
@@ -19,6 +20,7 @@ import SearchDemo from './SearchDemo';
 import React from 'react';
 import { SearchStatus, useRecommendations } from '../context/RecommendationContext';
 import { useAnalytics } from '../context/AnalyticsContext';
+import { useLibrary } from '../context/LibraryContext';
 
 
 const MemoSearchDemo = React.memo(() => (
@@ -34,6 +36,7 @@ export default function SearchTab() {
       currentSearch, 
       setCurrentSearch} = useRecommendations()
     const {trackAction} = useAnalytics()
+    const {hasLibrary, openPopup} = useLibrary()
     const [accordionIndexes, setAccordionIndexes] = useState([0])
     const errorToast = useToast()
     const openResults = () => setAccordionIndexes(accordionIndexes => accordionIndexes.concat(1))
@@ -139,6 +142,9 @@ export default function SearchTab() {
 
     return (
     <Box flex="1">
+      {hasLibrary ? <Button onClick={openPopup} fontSize={{base:"sm", md: "md"}}> 
+      Change Library
+      </Button> : ""}
       <MemoSearchDemo />
       <Flex direction="column" margin={{ base: "0% 0%", md: "0% 5%", lg: "0% 10%" }} justify="flex-start">
         <Accordion flex="4"
