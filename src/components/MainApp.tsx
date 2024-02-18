@@ -9,11 +9,18 @@ import {
   import WishList from '../components/WishList';
   import { WishlistProvider } from '../context/WishlistContext';
   import WishlistTabTitle from '../components/WishlistTabTitle';
+import { useSubscription } from '../context/SubscriptionContext';
+import { Navigate } from 'react-router-dom';
   
   interface MainAppParams {
     headerOffset : number
   }
   function MainApp({headerOffset} : MainAppParams) {
+    const {isActive} = useSubscription()
+
+    if(!isActive()) {
+      return (<Navigate to="/signup"/> )
+    }
     return (
       <WishlistProvider>
           <Tabs flex="1" variant="enclosed-colored" align="start" size="md">

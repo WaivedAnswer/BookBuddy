@@ -18,12 +18,15 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import ErrorPage from './routes/errorPage';
 import LoginPage from './routes/loginPage';
+import SignupPage from './routes/signupPage';
 
 import { LoginFlow } from './models/loginFlow';
 import { RecommendationProvider } from './context/RecommendationContext';
 import { AnalyticsProvider } from './context/AnalyticsContext';
 import { LocationProvider } from './context/LocationContext';
 import { LibraryProvider } from './context/LibraryContext';
+import { SubscriptionProvider } from './context/SubscriptionContext';
+
 
 
 // Configure Amplify in index file or root file
@@ -56,7 +59,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <LoginPage initialState={LoginFlow.SIGN_UP}/>,
+    element: <SignupPage initialState={LoginFlow.SIGN_UP}/>,
     errorElement: <ErrorPage />
   }
 ]);
@@ -67,15 +70,17 @@ const root = ReactDOM.createRoot(
 root.render(
   <Authenticator.Provider>
     <AnalyticsProvider>
-      <LocationProvider>
-        <RecommendationProvider>
-          <ChakraProvider theme={theme}>
-            <LibraryProvider>
-              <RouterProvider router={router} />
-            </LibraryProvider>
-          </ChakraProvider>
-        </RecommendationProvider>
-      </LocationProvider>
+      <SubscriptionProvider>
+        <LocationProvider>
+          <RecommendationProvider>
+            <ChakraProvider theme={theme}>
+              <LibraryProvider>
+                <RouterProvider router={router} />
+              </LibraryProvider>
+            </ChakraProvider>
+          </RecommendationProvider>
+        </LocationProvider>
+      </SubscriptionProvider>
     </AnalyticsProvider>
   </Authenticator.Provider>
 );

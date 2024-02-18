@@ -14,10 +14,12 @@ import MainApp from './components/MainApp';
 import LoginOrSignup from './components/LoginOrSignup';
 import LandingPage from './components/LandingPage';
 import ChooseLibrary from './components/ChooseLibrary';
+import { useSubscription } from './context/SubscriptionContext';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
   const {user} = useAuthenticator((context) => [context.user])
+  const { updateSubscriptionStatus } = useSubscription();
 
   const headerRef = useRef<any>(null)
   useEffect(() => {
@@ -27,6 +29,12 @@ function App() {
     }
 
   }, [])
+
+  useEffect(() => {
+    if (user) {
+      updateSubscriptionStatus();
+    }
+  }, [user, updateSubscriptionStatus]);
 
 
 
