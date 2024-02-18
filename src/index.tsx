@@ -26,6 +26,7 @@ import { AnalyticsProvider } from './context/AnalyticsContext';
 import { LocationProvider } from './context/LocationContext';
 import { LibraryProvider } from './context/LibraryContext';
 import { SubscriptionProvider } from './context/SubscriptionContext';
+import SettingsPage from './routes/settingsPage';
 
 
 
@@ -60,6 +61,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignupPage initialState={LoginFlow.SIGN_UP}/>,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/settings",
+    element: <SettingsPage/>,
     errorElement: <ErrorPage />
   }
 ]);

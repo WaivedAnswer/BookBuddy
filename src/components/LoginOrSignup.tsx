@@ -26,12 +26,17 @@ export default function LoginOrSignup() {
     clearRecommendations()
     signOut()
   }
+
+  const onSettings = () => {
+    navigate("/settings")
+  }
+
   return (
       <Center mr={4} mt={2} mb={2}>
           {
               user ? 
               <HStack>
-                <IconButton aria-label='Search database' icon={<SettingsIcon />} />
+                <IconButton aria-label='User Settings' icon={<SettingsIcon />} onClick={onSettings} />
                 <Button onClick={onLogout} >Logout</Button>
               </HStack>
                : 

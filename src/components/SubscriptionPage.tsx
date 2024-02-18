@@ -71,7 +71,7 @@ function SubscriptionPage() {
   if (!success && message === '') {
     return <ProductDisplay />;
   } else if (success) {
-    return <ProductDisplay />;
+    return <SuccessDisplay />;
   } else {
     return <Message message={message} />;
   }
