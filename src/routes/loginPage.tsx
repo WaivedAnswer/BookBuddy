@@ -1,5 +1,5 @@
 import { Flex, Heading } from "@chakra-ui/react";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Authenticator } from "@aws-amplify/ui-react";
 import { LoginFlow } from "../models/loginFlow";
 import { useAnalytics } from "../context/AnalyticsContext";

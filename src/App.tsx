@@ -14,7 +14,6 @@ import MainApp from './components/MainApp';
 import LoginOrSignup from './components/LoginOrSignup';
 import LandingPage from './components/LandingPage';
 import ChooseLibrary from './components/ChooseLibrary';
-import { useSubscription } from './context/SubscriptionContext';
 
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)

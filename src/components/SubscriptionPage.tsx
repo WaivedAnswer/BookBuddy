@@ -1,11 +1,11 @@
-import { Heading, Button, Flex, Card, HStack, VStack, Link } from '@chakra-ui/react';
+import { Heading, Button, Flex, Card, HStack, Text, VStack, Container, Spacer } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { getStripeService } from '../services/stripe';
 import { useSubscription } from '../context/SubscriptionContext';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 
-const ProductDisplay = () => {
+const ProductDisplay = ({ message } : {message: string}) => {
     const {signOut} = useAuthenticator((context) => [context.user])
     const {clearContext} = useSubscription()
     const checkout = () => {
@@ -33,16 +33,21 @@ const ProductDisplay = () => {
                 </Card>
             </HStack>
             <Button onClick={onLogout}>I changed my mind</Button>
+            {
+                message ? <>
+                    <Spacer/>
+                    <Message message={message}/>
+                </> : ""
+            }
+            
         </VStack>
     </Card>
 
   </Flex>
 );}
 
-interface SuccessParams {
-}
 
-const SuccessDisplay = ({ } : SuccessParams) => {
+const SuccessDisplay = () => {
   return (
     <Flex flex="1" width="100%" height="100%" align="center" justify="center" flexDirection="column">
         <Card boxSize="lg">
@@ -53,9 +58,9 @@ const SuccessDisplay = ({ } : SuccessParams) => {
 };
 
 const Message = ({ message } : {message: string}) => (
-  <section>
-    <p>{message}</p>
-  </section>
+  <Container>
+    <Text textAlign="center">{message}</Text>
+  </Container>
 );
 
 function SubscriptionPage() {
@@ -74,7 +79,7 @@ function SubscriptionPage() {
     if (query.get('canceled')) {
       setSuccess(false);
       setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
+        "Order canceled, check out when you're ready."
       );
     }
   }, []);
@@ -85,12 +90,10 @@ function SubscriptionPage() {
     }
   }, [success, updateSubscriptionStatus])
 
-  if (!success && message === '') {
-    return <ProductDisplay />;
-  } else if (success) {
-    return <SuccessDisplay />;
+  if (!success) {
+    return <ProductDisplay message={message}/>;
   } else {
-    return <Message message={message} />;
+    return <SuccessDisplay />;
   }
   }
   
