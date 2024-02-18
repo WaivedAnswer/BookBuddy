@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useRecommendations } from '../context/RecommendationContext';
 import { useAnalytics } from '../context/AnalyticsContext';
 import { SettingsIcon } from '@chakra-ui/icons';
+import { useSubscription } from '../context/SubscriptionContext';
   
 export default function LoginOrSignup() {
   const { trackAction } = useAnalytics()
   const {signOut, user} = useAuthenticator((context) => [context.user])
+  const {clearContext} = useSubscription()
   const {clearRecommendations} = useRecommendations()
 
   const navigate = useNavigate()
@@ -23,8 +25,9 @@ export default function LoginOrSignup() {
   }
 
   const onLogout = async () => {
-    clearRecommendations()
-    signOut()
+    await signOut()
+    await clearContext()
+    await clearRecommendations()
   }
 
   const onSettings = () => {

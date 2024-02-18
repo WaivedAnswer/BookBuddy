@@ -3,6 +3,7 @@ import { SubscriptionType, getSubscriptionService } from '../services/subscripti
 
 interface SubscriptionContextParams {
     updateSubscriptionStatus: () => Promise<void>
+    clearContext: () => Promise<void>
     subscriptionStatus: SubscriptionType
     isActive: () => boolean
 }
@@ -14,6 +15,7 @@ export const SubscriptionProvider = ({ children } : any) => {
     const isActive = useCallback( () => {
         return subscriptionStatus === SubscriptionType.ACTIVE
     }, [subscriptionStatus])
+
     const updateSubscriptionStatus = useCallback(async () => {
         const subscriptionService = getSubscriptionService()
         try {
@@ -27,8 +29,12 @@ export const SubscriptionProvider = ({ children } : any) => {
         }
     }, []);
 
+    const clearContext = useCallback(async () => {
+        setSubscriptionStatus(SubscriptionType.UNKNOWN)
+    }, [])
+
   return (
-    <SubscriptionContext.Provider value={{ subscriptionStatus, updateSubscriptionStatus, isActive }}>
+    <SubscriptionContext.Provider value={{ subscriptionStatus, updateSubscriptionStatus, isActive, clearContext }}>
       {children}
     </SubscriptionContext.Provider>
   );
