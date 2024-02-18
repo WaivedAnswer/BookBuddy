@@ -1,22 +1,34 @@
-import { Flex } from "@chakra-ui/react";
-import { Navigate } from 'react-router-dom';
+import { Flex, Heading } from "@chakra-ui/react";
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Authenticator } from "@aws-amplify/ui-react";
 import { LoginFlow } from "../models/loginFlow";
 import { useAnalytics } from "../context/AnalyticsContext";
+import { SubscriptionType } from "../services/subscriptionStatus";
+import { useSubscription } from "../context/SubscriptionContext";
+import { useEffect } from "react";
 
 interface LoginPageParams {
     initialState: LoginFlow
 }
 export default function CallbackPage({initialState} : LoginPageParams) {
   const {trackAction} = useAnalytics()
+  const {subscriptionStatus} = useSubscription()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if( subscriptionStatus === SubscriptionType.ACTIVE ) {
+        trackAction(`Login from ${initialState}`)
+        navigate("/")
+    } else if( subscriptionStatus === SubscriptionType.NONE) {
+      navigate("/signup")
+    }
+  }, [initialState, subscriptionStatus, navigate, trackAction])
 
   return (
     <Flex direction="column" align="center" height="100vh" justify="center" bgColor="primary">
       <Authenticator loginMechanisms={['username','email']} initialState={initialState}>
-      {() => { 
-          trackAction(`Login from ${initialState}`)
-          return (<Navigate to="/"/> )
-        }
+      {
+          <Heading color="white">Loading...</Heading>
       }
     </Authenticator>
     </Flex>

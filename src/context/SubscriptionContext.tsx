@@ -1,5 +1,6 @@
-import { createContext, useState, useContext, useCallback } from 'react';
+import { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { SubscriptionType, getSubscriptionService } from '../services/subscriptionStatus';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 interface SubscriptionContextParams {
     updateSubscriptionStatus: () => Promise<void>
@@ -11,6 +12,7 @@ interface SubscriptionContextParams {
 const SubscriptionContext = createContext<null | SubscriptionContextParams> (null);
 
 export const SubscriptionProvider = ({ children } : any) => {
+    const {user} = useAuthenticator((context) => [context.user])
     const [subscriptionStatus, setSubscriptionStatus] = useState<SubscriptionType>(SubscriptionType.UNKNOWN);
     const isActive = useCallback( () => {
         return subscriptionStatus === SubscriptionType.ACTIVE
@@ -28,6 +30,15 @@ export const SubscriptionProvider = ({ children } : any) => {
             //set loading
         }
     }, []);
+
+    useEffect(() => {
+        if(user) {
+            updateSubscriptionStatus()
+        } else {
+            setSubscriptionStatus(SubscriptionType.UNKNOWN)
+        }
+
+    }, [user, updateSubscriptionStatus])
 
     const clearContext = useCallback(async () => {
         setSubscriptionStatus(SubscriptionType.UNKNOWN)

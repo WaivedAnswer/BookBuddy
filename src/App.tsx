@@ -19,8 +19,6 @@ import { useSubscription } from './context/SubscriptionContext';
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
   const {user} = useAuthenticator((context) => [context.user])
-  const { updateSubscriptionStatus } = useSubscription();
-
   const headerRef = useRef<any>(null)
   useEffect(() => {
     if(headerRef.current) {
@@ -29,13 +27,6 @@ function App() {
     }
 
   }, [])
-
-  useEffect(() => {
-    if (user) {
-      updateSubscriptionStatus();
-    }
-  }, [user, updateSubscriptionStatus]);
-
 
 
   const email = process.env.REACT_APP_FEEDBACK_EMAIL

@@ -4,21 +4,33 @@ import {
     TabList,
     Tab,
     TabPanels,
-    TabPanel} from '@chakra-ui/react';
+    TabPanel,
+    VStack} from '@chakra-ui/react';
   import SearchTab from '../components/SearchTab';
   import WishList from '../components/WishList';
   import { WishlistProvider } from '../context/WishlistContext';
   import WishlistTabTitle from '../components/WishlistTabTitle';
 import { useSubscription } from '../context/SubscriptionContext';
 import { Navigate } from 'react-router-dom';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { SubscriptionType } from '../services/subscriptionStatus';
+import LoadingIcon from './LoadingIcon';
   
   interface MainAppParams {
     headerOffset : number
   }
   function MainApp({headerOffset} : MainAppParams) {
-    const {isActive} = useSubscription()
+    const {subscriptionStatus} = useSubscription()
+    const {user} = useAuthenticator((context) => [context.user])
 
-    if(!isActive()) {
+    if(user && subscriptionStatus === SubscriptionType.UNKNOWN) {
+      return (
+        <VStack>
+          <Text>Loading...</Text>
+          <LoadingIcon/>
+        </VStack>)
+    }
+    else if(user && subscriptionStatus !== SubscriptionType.ACTIVE) {
       return (<Navigate to="/signup"/> )
     }
     return (

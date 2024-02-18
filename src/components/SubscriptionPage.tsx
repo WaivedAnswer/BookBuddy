@@ -1,23 +1,41 @@
-import { Heading, Button, Flex, Card } from '@chakra-ui/react';
+import { Heading, Button, Flex, Card, HStack, VStack, Link } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { getStripeService } from '../services/stripe';
 import { useSubscription } from '../context/SubscriptionContext';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDisplay = () => {
-
+    const {signOut} = useAuthenticator((context) => [context.user])
+    const {clearContext} = useSubscription()
     const checkout = () => {
         getStripeService().checkout("FMR-Monthly")
     }
+    const navigate = useNavigate()
+
+    const onLogout = async () => {
+        await signOut()
+        await clearContext()
+        navigate("/")
+      }
 
     return (
   <Flex flex="1" width="100%" height="100%" align="center" justify="center" flexDirection="column">
     <Card boxSize="lg">
-        <Heading fontSize="4xl">Starter plan</Heading>
-        <Heading fontSize="lg">$4.99 / month</Heading>
-      <Button id="checkout-and-portal-button" onClick={checkout}>
-        Checkout
-      </Button>
+        <VStack>
+            <HStack>
+                <Card>
+                    <Heading fontSize="4xl">Starter plan</Heading>
+                    <Heading fontSize="lg">$4.99 / month</Heading>
+                    <Button id="checkout-and-portal-button" onClick={checkout}>
+                        Checkout
+                    </Button>
+                </Card>
+            </HStack>
+            <Button onClick={onLogout}>I changed my mind</Button>
+        </VStack>
     </Card>
+
   </Flex>
 );}
 
@@ -63,7 +81,6 @@ function SubscriptionPage() {
 
   useEffect(() => {
     if(success) {
-        console.log("Updating subscription status")
         updateSubscriptionStatus()
     }
   }, [success, updateSubscriptionStatus])
