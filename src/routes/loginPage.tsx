@@ -19,7 +19,7 @@ export default function CallbackPage({initialState} : LoginPageParams) {
     if( subscriptionStatus === SubscriptionType.ACTIVE ) {
         trackAction(`Login from ${initialState}`)
         navigate("/")
-    } else if( subscriptionStatus === SubscriptionType.NONE) {
+    } else if( subscriptionStatus === SubscriptionType.NONE || subscriptionStatus === SubscriptionType.CANCELLED) {
       navigate("/signup")
     }
   }, [initialState, subscriptionStatus, navigate, trackAction])

@@ -2,6 +2,7 @@ import { fetchAuthSession } from 'aws-amplify/auth';
 
 export enum SubscriptionType {
     UNKNOWN="UNKNOWN",
+    CANCELLED="CANCELLED",
     FAILED="FAILED",
     NONE="NONE",
     ACTIVE="ACTIVE",
