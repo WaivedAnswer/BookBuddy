@@ -5,7 +5,7 @@ import {
     Tab,
     TabPanels,
     TabPanel,
-    VStack} from '@chakra-ui/react';
+    Center} from '@chakra-ui/react';
   import SearchTab from '../components/SearchTab';
   import WishList from '../components/WishList';
   import { WishlistProvider } from '../context/WishlistContext';
@@ -25,10 +25,10 @@ import LoadingIcon from './LoadingIcon';
 
     if(user && subscriptionStatus === SubscriptionType.UNKNOWN) {
       return (
-        <VStack>
+        <Center flex="1">
           <Text>Loading...</Text>
           <LoadingIcon/>
-        </VStack>)
+        </Center>)
     }
     else if(user && subscriptionStatus !== SubscriptionType.ACTIVE) {
       return (<Navigate to="/signup"/> )

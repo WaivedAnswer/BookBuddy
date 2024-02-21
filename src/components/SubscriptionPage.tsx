@@ -1,19 +1,18 @@
-import { Heading, Button, Flex, Card, HStack, Text, VStack, Container, Spacer } from '@chakra-ui/react';
+import { Heading, Flex, Card, HStack, Text, VStack, Container, Spacer, Link } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { getStripeService } from '../services/stripe';
 import { useSubscription } from '../context/SubscriptionContext';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
+import SubscriptionOption from './SubscriptionOption';
 
 const ProductDisplay = ({ message } : {message: string}) => {
     const {signOut} = useAuthenticator((context) => [context.user])
     const {clearContext} = useSubscription()
-    const checkout = () => {
-        getStripeService().checkout("FMR-Monthly")
-    }
+
     const navigate = useNavigate()
 
-    const onLogout = async () => {
+    const onLogout = async (e : any) => {
+        e.preventDefault()
         await signOut()
         await clearContext()
         navigate("/")
@@ -22,17 +21,16 @@ const ProductDisplay = ({ message } : {message: string}) => {
     return (
   <Flex flex="1" width="100%" height="100%" align="center" justify="center" flexDirection="column">
     <Card boxSize="lg">
-        <VStack>
-            <HStack>
-                <Card>
-                    <Heading fontSize="4xl">Starter plan</Heading>
-                    <Heading fontSize="lg">$4.99 / month</Heading>
-                    <Button id="checkout-and-portal-button" onClick={checkout}>
-                        Checkout
-                    </Button>
-                </Card>
+        <VStack margin={4} justify="space-between" height="100%">
+            <VStack>
+            <HStack spacing={8}>
+                <SubscriptionOption title="Monthly" price="$4.99" details="billed monthly" pricingKey="FMR-Monthly"/>
+                <SubscriptionOption title="Annual" price="$49.99" details="billed yearly" pricingKey="FMR-Yearly"/>
             </HStack>
-            <Button onClick={onLogout}>I changed my mind</Button>
+            <Text color="gray.500" fontSize="xs">*Free trial lasts 30 days</Text>
+            </VStack>
+            
+            <Link onClick={onLogout}>I changed my mind</Link>
             {
                 message ? <>
                     <Spacer/>
@@ -62,6 +60,8 @@ const Message = ({ message } : {message: string}) => (
     <Text textAlign="center">{message}</Text>
   </Container>
 );
+
+
 
 function SubscriptionPage() {
   let [message, setMessage] = useState('');
