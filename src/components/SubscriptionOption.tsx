@@ -1,5 +1,5 @@
 
-import { Heading, Button, Card, HStack, Text, CardHeader, CardBody, CardFooter, Container } from '@chakra-ui/react';
+import { Heading, Button, Card, HStack, Text, CardHeader, CardBody, CardFooter, Container, useToast } from '@chakra-ui/react';
 import { getStripeService } from '../services/stripe';
 
 
@@ -11,9 +11,23 @@ interface SubscriptionOptionParams {
 }
 
 export default function SubscriptionOption({pricingKey, title, price, details} : SubscriptionOptionParams) {
-    const checkout = () => {
-        getStripeService().checkout(pricingKey)
+    const errorToast = useToast()
+    
+    const checkout = async () => {
+        try {
+            await getStripeService().checkout(pricingKey)
+        } catch (e) {
+            console.error(e)
+        }
+        errorToast({
+            title: "Subscription Unavailable",
+            description: "We've encountered an error. Try again later",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+        })
     }
+
 
     return <Card background="gray.300" variant="elevated" align="center">
         <CardHeader>
