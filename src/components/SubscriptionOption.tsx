@@ -18,14 +18,14 @@ export default function SubscriptionOption({pricingKey, title, price, details} :
             await getStripeService().checkout(pricingKey)
         } catch (e) {
             console.error(e)
+            errorToast({
+                title: "Subscription Unavailable",
+                description: "We've encountered an error. Try again later",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            })
         }
-        errorToast({
-            title: "Subscription Unavailable",
-            description: "We've encountered an error. Try again later",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-        })
     }
 
 
