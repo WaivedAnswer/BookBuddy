@@ -21,6 +21,9 @@ export default function CallbackPage({initialState} : LoginPageParams) {
         navigate("/")
     } else if( subscriptionStatus === SubscriptionType.NONE || subscriptionStatus === SubscriptionType.CANCELLED) {
       navigate("/signup")
+    } else if (subscriptionStatus === SubscriptionType.FAILED) {
+      //allowing failed checks to still access front-end. assuming positive intent for a positive experience
+      navigate("/")
     }
   }, [initialState, subscriptionStatus, navigate, trackAction])
 

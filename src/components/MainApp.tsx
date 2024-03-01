@@ -30,9 +30,10 @@ import LoadingIcon from './LoadingIcon';
           <LoadingIcon/>
         </Center>)
     }
-    else if(user && subscriptionStatus !== SubscriptionType.ACTIVE) {
+    else if(user && (subscriptionStatus === SubscriptionType.NONE || subscriptionStatus === SubscriptionType.CANCELLED)) {
       return (<Navigate to="/signup"/> )
     }
+    
     return (
       <WishlistProvider>
           <Tabs flex="1" variant="enclosed-colored" align="start" size="md">
