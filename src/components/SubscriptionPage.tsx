@@ -1,4 +1,4 @@
-import { Heading, Flex, Card, HStack, Text, VStack, Container, Spacer, Link } from '@chakra-ui/react';
+import { Heading, Flex, Card, HStack, Text, VStack, Container, Spacer, Link, Center } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSubscription } from '../context/SubscriptionContext';
 import { useAuthenticator } from '@aws-amplify/ui-react';
@@ -49,7 +49,10 @@ const SuccessDisplay = () => {
   return (
     <Flex flex="1" width="100%" height="100%" align="center" justify="center" flexDirection="column">
         <Card boxSize="lg">
-        <Heading>Subscription to starter plan successful!</Heading>
+          <VStack height="100%" margin={4} gap={4}>
+            <Heading>Subscription Successful</Heading>
+            <Text>Congratulations! You're one step closer to your next level</Text>
+          </VStack>
         </Card>
     </Flex>
   );
@@ -65,7 +68,7 @@ const Message = ({ message } : {message: string}) => (
 
 function SubscriptionPage() {
   let [message, setMessage] = useState('');
-  let [success, setSuccess] = useState(false);
+  let [success, setSuccess] = useState(true);
   const {updateSubscriptionStatus} = useSubscription()
 
   useEffect(() => {
