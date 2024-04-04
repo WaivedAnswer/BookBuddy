@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useCallback, useContext, useEffect } from 'react';
 import ReactGA from "react-ga4";
 import { isLocal } from '../services/isLocal';
 
@@ -21,7 +21,7 @@ export const AnalyticsProvider = ({ children } : any) => {
         ReactGA.initialize("G-7VL62VHHXE");
     }, [])
 
-    const trackAction = (actionName: string) => {
+    const trackAction = useCallback((actionName: string) => {
         if(isLocal()) {
             console.log(`Not Tracking: ${actionName}`)
             return 
@@ -33,7 +33,7 @@ export const AnalyticsProvider = ({ children } : any) => {
             category: "Main",
             action: actionName,
           });
-    }
+    }, [])
 
     return (
         <AnalyticsContext.Provider value={{trackAction}}>

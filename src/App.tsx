@@ -18,7 +18,6 @@ import ChooseLibrary from './components/ChooseLibrary';
 function App() {
   const [headerOffset, setHeaderOffset] = useState(0)
   const {user} = useAuthenticator((context) => [context.user])
-
   const headerRef = useRef<any>(null)
   useEffect(() => {
     if(headerRef.current) {
@@ -27,7 +26,6 @@ function App() {
     }
 
   }, [])
-
 
 
   const email = process.env.REACT_APP_FEEDBACK_EMAIL
