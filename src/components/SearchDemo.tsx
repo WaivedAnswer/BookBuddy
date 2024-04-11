@@ -32,13 +32,16 @@ export default function SearchDemo() {
                 padding={{base: 2, sm: 4}}
                 margin={{base:4, md:8}}
                 variant="filled"
+                backgroundColor={"black"}   
                 >
                 <ChakraTypeAnimation
                     sequence={getSequence()}
                     wrapper="span"
                     repeat={Infinity}
                     deletionSpeed={70}
-                    fontSize={{base:"md", sm:"lg", lg:"xl"}}
+                    fontSize={{base:"sm", sm:"md", lg:"lg"}}
+                    fontFamily={"monospace"}
+                    userSelect={"none"} 
                     color="grey"
                 />
             </Card>

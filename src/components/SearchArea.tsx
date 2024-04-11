@@ -9,6 +9,10 @@ interface SearchAreaParams {
 function SearchArea({onSearch} : SearchAreaParams) {
     const searchTextRef = useRef<HTMLTextAreaElement>(null)
     const [description, setDescription] = useState("")
+
+    const clearTextArea = () => {
+        setDescription("");
+    };
     
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -49,9 +53,12 @@ function SearchArea({onSearch} : SearchAreaParams) {
             onKeyDown={handleKeyDown} 
             fontSize={{base: "md", sm:"lg"}}/>
     </Container>
-      <Button size="lg" isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
-        Search
-      </Button>
+        <Button size="lg" isDisabled={description.length === 0 } className="search-button" onClick={handleSubmit} colorScheme='blue'>
+            Search
+        </Button>
+        <Button size="sm" isDisabled={description.length === 0 } className="clear-search-button" onClick={clearTextArea} colorScheme='gray'>
+            Clear Search
+        </Button>
     </VStack>
     )
   }
