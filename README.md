@@ -1,34 +1,42 @@
-Detailed README coming soon!
+# Generative AI Book Recommendation Front-End
+
+_Detailed README coming soon!_
 
 This project is the front-end for a Generative AI book recommendation platform where users can search for books related to their learning interests.
 
-Run with npm start
+## Getting Started
 
-Requires:
-.env file including:
+1. **Create a `.env` file** including the following environment variables:
 
-#Whether to mock out the service backends with local classes
-REACT_APP_REC_SERVICE=("true"/"false")
-REACT_APP_BOOK_SERVICE=("true"/"false")
-REACT_APP_SHOP_LOCAL_SERVICE=("true"/"false")
+    ```env
+    # Whether to mock out the service backends with local classes  
+    REACT_APP_REC_SERVICE=("true"/"false")  
+    REACT_APP_BOOK_SERVICE=("true"/"false")  
+    REACT_APP_SHOP_LOCAL_SERVICE=("true"/"false")  
 
-#Overrides above flags and runs with all services active
-REACT_APP_ALL_SERVICES=("true"/"false")
+    # Overrides above flags and runs with all services active  
+    REACT_APP_ALL_SERVICES=("true"/"false")
 
-#contact email
-REACT_APP_FEEDBACK_EMAIL=""
+    # Contact email  
+    REACT_APP_FEEDBACK_EMAIL=""  
 
-#cognito configuration for auth https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html
-REACT_APP_COGNITO_POOL_ID=""
-REACT_APP_POOL_CLIENT_ID=""
+    # Cognito configuration for auth  
+    # https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html  
+    REACT_APP_COGNITO_POOL_ID=""  
+    REACT_APP_POOL_CLIENT_ID=""
 
-#backend root url
-REACT_APP_API_URL=""
+    # Backend root URL  
+    REACT_APP_API_URL=""
+    ```
 
-Basic structure:
-src/services: Outbound requests to lambda backends or Local Mocked Services. Can modify Mocked services to return anything as long as they match interface
+2. **Run the app**:
 
-src/components: React Components
+    ```bash
+    npm start
+    ```
 
-src/context: React Context Providers
+## Basic Project Structure
 
+- `src/services`: Outbound requests to Lambda backends or Local Mocked Services. You can modify mocked services to return anything, as long as they match the interface.
+- `src/components`: React components.
+- `src/context`: React Context Providers.
