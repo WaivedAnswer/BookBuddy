@@ -1,4 +1,4 @@
-README coming soon!
+Detailed README coming soon!
 
 This project is the front-end for a Generative AI book recommendation platform where users can search for books related to their learning interests.
 
