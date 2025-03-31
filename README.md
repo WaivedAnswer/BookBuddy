@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+README coming soon!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is the front-end for a Generative AI book recommendation platform where users can search for books related to their learning interests.
 
-## Available Scripts
+Run with npm start
 
-In the project directory, you can run:
+Requires:
+.env file including:
 
-### `npm start`
+#Whether to mock out the service backends with local classes
+REACT_APP_REC_SERVICE=("true"/"false")
+REACT_APP_BOOK_SERVICE=("true"/"false")
+REACT_APP_SHOP_LOCAL_SERVICE=("true"/"false")
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#Overrides above flags and runs with all services active
+REACT_APP_ALL_SERVICES=("true"/"false")
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#contact email
+REACT_APP_FEEDBACK_EMAIL=""
 
-### `npm test`
+#cognito configuration for auth https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-scenarios.html
+REACT_APP_COGNITO_POOL_ID=""
+REACT_APP_POOL_CLIENT_ID=""
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#backend root url
+REACT_APP_API_URL=""
 
-### `npm run build`
+Basic structure:
+src/services: Outbound requests to lambda backends or Local Mocked Services. Can modify Mocked services to return anything as long as they match interface
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+src/components: React Components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+src/context: React Context Providers
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
