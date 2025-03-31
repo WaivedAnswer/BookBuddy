@@ -1,7 +1,5 @@
 # Generative AI Book Recommendation Front-End
 
-_Detailed README coming soon!_
-
 This project is the front-end for a Generative AI book recommendation platform where users can search for books related to their learning interests.
 
 ## Getting Started
