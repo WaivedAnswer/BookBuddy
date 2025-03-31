@@ -1,5 +1,11 @@
 # Generative AI Book Recommendation Front-End
 
+<p align="center">
+  <img src="./public/MyBookMentor.png"
+       alt="MyBookMentor Screenshot"
+       width="600" />
+</p>
+
 This project is the front-end for a Generative AI book recommendation platform where users can search for books related to their learning interests.
 
 ## Getting Started
